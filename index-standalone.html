@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📐 Interactive Math Glossary</title>
+    <meta name="description" content="An interactive math glossary for middle school students with 215+ terms and visual diagrams">
+    <style>
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #7c3aed;
+    --accent-color: #f59e0b;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --bg-light: #f9fafb;
+    --bg-white: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Controls Section */
+.controls {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Search */
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    background: var(--bg-light);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: var(--bg-white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Filter Buttons */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.filter-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-white);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.filter-btn:active {
+    transform: translateY(0);
+}
+
+/* Results Info */
+.results-info {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Terms Grid */
+.terms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.term-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid transparent;
+}
+
+.term-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.term-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.term-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.domain-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Domain Colors */
+.domain-geometry { background: #dbeafe; color: #1e40af; }
+.domain-algebra { background: #fce7f3; color: #9f1239; }
+.domain-numbers { background: #d1fae5; color: #065f46; }
+.domain-probability { background: #fef3c7; color: #92400e; }
+.domain-statistics { background: #e0e7ff; color: #3730a3; }
+.domain-measurement { background: #fce7f3; color: #831843; }
+.domain-ratios { background: #fef9c3; color: #854d0e; }
+.domain-data { background: #ddd6fe; color: #5b21b6; }
+
+.term-definition {
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.term-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    min-height: 200px;
+}
+
+.term-visual svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.term-examples {
+    margin-top: auto;
+}
+
+.examples-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.examples-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.example-item {
+    background: var(--bg-light);
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    grid-column: 1 / -1;
+}
+
+/* No Results */
+.no-results {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.no-results-content {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.no-results h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.no-results p {
+    color: var(--text-secondary);
+}
+
+/* Footer */
+.footer {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    color: var(--text-secondary);
+}
+
+.footer p {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .header {
+        padding: 1.5rem;
+    }
+
+    .controls {
+        padding: 1rem;
+    }
+
+    .terms-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .filter-container {
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .term-name {
+        font-size: 1.25rem;
+    }
+
+    .filter-btn {
+        flex: 1 1 calc(50% - 0.25rem);
+        text-align: center;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .controls,
+    .footer {
+        display: none;
+    }
+
+    .term-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--border-color);
+    }
+
+    .terms-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">📐 Interactive Math Glossary</h1>
+                <p class="subtitle">215+ math terms with visual diagrams for middle school students</p>
+            </div>
+        </header>
+
+        <!-- Search and Filter Section -->
+        <div class="controls">
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="🔍 Search for a math term..."
+                    aria-label="Search math terms"
+                >
+            </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" data-domain="all">
+                    All Terms
+                </button>
+            </div>
+
+            <div class="results-info">
+                <span id="resultsCount">Loading terms...</span>
+            </div>
+        </div>
+
+        <!-- Terms Grid -->
+        <div id="termsGrid" class="terms-grid">
+            <div class="loading">Loading math terms...</div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-content">
+                <span class="no-results-icon">🔍</span>
+                <h3>No terms found</h3>
+                <p>Try adjusting your search or filter</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with ❤️ for middle school math students</p>
+            <p class="footer-links">
+                <a href="https://github.com/AyneldjaMama/math-glossary" target="_blank">GitHub</a>
+                <span>•</span>
+                <a href="mailto:sean.f.harding@gmail.com">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+    // Embedded glossary data
+    const GLOSSARY_DATA = {
+  "metadata": {
+    "title": "Middle School Math Glossary",
+    "target_audience": "Middle school students (ages 11-14)",
+    "total_terms": 253,
+    "description": "Comprehensive math vocabulary with kid-friendly definitions",
+    "domains": [
+      "Geometry",
+      "Probability",
+      "Statistics",
+      "Numbers",
+      "Ratios",
+      "Algebra",
+      "Measurement",
+      "Data"
+    ]
+  },
+  "terms": [
+    {
+      "term": "absolute value",
+      "definition": "The distance a number is from zero on a number line, always shown as a positive number.",
+      "domain": "Numbers",
+      "examples": [
+        "The absolute value of -5 is 5",
+        "The absolute value of 3 is 3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#1f2937\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#1f2937\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"50\" y1=\"95\" x2=\"50\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"100\" y1=\"90\" x2=\"100\" y2=\"110\" stroke=\"#ef4444\" stroke-width=\"3\" />\n  <line x1=\"150\" y1=\"95\" x2=\"150\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <text x=\"42\" y=\"125\" font-size=\"14\" fill=\"#1f2937\">-5</text>\n  <text x=\"96\" y=\"125\" font-size=\"14\" fill=\"#ef4444\" font-weight=\"bold\">0</text>\n  <text x=\"148\" y=\"125\" font-size=\"14\" fill=\"#1f2937\">5</text>\n  <line x1=\"50\" y1=\"70\" x2=\"100\" y2=\"70\" stroke=\"#3b82f6\" stroke-width=\"3\" marker-end=\"url(#bluearrow)\" />\n  <line x1=\"100\" y1=\"70\" x2=\"150\" y2=\"70\" stroke=\"#3b82f6\" stroke-width=\"3\" marker-end=\"url(#bluearrow)\" />\n  <defs>\n    <marker id=\"bluearrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#3b82f6\" />\n    </marker>\n  </defs>\n  <text x=\"55\" y=\"50\" font-size=\"12\" fill=\"#3b82f6\">Distance: 5</text>\n\n</svg>"
+    },
+    {
+      "term": "acute angle",
+      "definition": "An angle that measures less than 90 degrees, like the corner of a slice of pizza.",
+      "domain": "Geometry",
+      "examples": [
+        "45°",
+        "60°",
+        "30°"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#2563eb\" />\n    </marker>\n  </defs>\n  <line x1=\"50\" y1=\"150\" x2=\"150\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"3\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"50\" y1=\"150\" x2=\"130\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"3\" marker-end=\"url(#arrowhead)\" />\n  <path d=\"M 70 150 A 20 20 0 0 1 58 136\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"85\" y=\"140\" font-size=\"16\" fill=\"#f59e0b\" font-weight=\"bold\">45°</text>\n\n</svg>"
+    },
+    {
+      "term": "additive identity",
+      "definition": "The number zero, because adding zero to any number doesn't change it.",
+      "domain": "Numbers",
+      "examples": [
+        "5 + 0 = 5",
+        "0 + 12 = 12"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Additive Identity</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "additive inverse",
+      "definition": "A number that when added to the original number equals zero, like 5 and -5.",
+      "domain": "Numbers",
+      "examples": [
+        "3 and -3",
+        "8 and -8"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Additive Inverse</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "adjacent angles",
+      "definition": "Two angles that share a common side and vertex but don't overlap.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"50\" y1=\"120\" x2=\"150\" y2=\"120\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"120\" x2=\"100\" y2=\"50\" stroke=\"#10b981\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"120\" x2=\"120\" y2=\"70\" stroke=\"#f59e0b\" stroke-width=\"3\" />\n  <path d=\"M 70 120 A 20 20 0 0 1 61 105\" fill=\"#3b82f6\" fill-opacity=\"0.3\" />\n  <path d=\"M 75 115 A 25 25 0 0 1 65 98\" fill=\"#fbbf24\" fill-opacity=\"0.3\" />\n  <text x=\"60\" y=\"180\" font-size=\"12\" fill=\"#1f2937\">Share a side</text>\n\n</svg>"
+    },
+    {
+      "term": "algebraic expression",
+      "definition": "A math phrase with numbers, variables, and operation signs, like 3x + 7.",
+      "domain": "Algebra",
+      "examples": [
+        "2x + 5",
+        "4a - 3b"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"90\" font-size=\"32\" fill=\"#1f2937\" font-weight=\"bold\">3x + 5</text>\n  <text x=\"35\" y=\"130\" font-size=\"12\" fill=\"#3b82f6\">No = sign</text>\n\n</svg>"
+    },
+    {
+      "term": "alternate interior angles",
+      "definition": "Angles on opposite sides of a transversal line between two parallel lines that are equal.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Alternate</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Interior</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Angles</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "area",
+      "definition": "The amount of space inside a two-dimensional shape, measured in square units.",
+      "domain": "Measurement",
+      "examples": [
+        "The area of a 3×4 rectangle is 12 square units"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"40\" y=\"50\" width=\"120\" height=\"80\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"60\" x2=\"150\" y2=\"60\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <line x1=\"50\" y1=\"75\" x2=\"150\" y2=\"75\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <line x1=\"50\" y1=\"90\" x2=\"150\" y2=\"90\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <line x1=\"50\" y1=\"105\" x2=\"150\" y2=\"105\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <line x1=\"50\" y1=\"120\" x2=\"150\" y2=\"120\" stroke=\"#cbd5e1\" stroke-width=\"1\" />\n  <text x=\"55\" y=\"160\" font-size=\"14\" fill=\"#1f2937\">Space inside</text>\n\n</svg>"
+    },
+    {
+      "term": "association",
+      "definition": "A relationship between two sets of data that shows they tend to change together.",
+      "domain": "Statistics",
+      "examples": [
+        "height and shoe size often have positive association"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Association</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Associative Property",
+      "definition": "You can group numbers differently when adding or multiplying and get the same answer.",
+      "domain": "Algebra",
+      "examples": [
+        "(2 + 3) + 4 = 2 + (3 + 4)"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Associative Property</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "base (of a three dimensional figure)",
+      "definition": "The flat face of a 3D shape that it rests on, like the bottom of a box.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Base</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">A</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "base of a geometric figure",
+      "definition": "The bottom side of a shape, or the side it sits on.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Base</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">A</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "base of an exponent",
+      "definition": "The number that gets multiplied by itself in an exponent expression, like the 2 in 2³.",
+      "domain": "Numbers",
+      "examples": [
+        "In 5², the base is 5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Base</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">An</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "boundary point",
+      "definition": "A point that marks where a solution region begins or ends on a number line or graph.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Boundary Point</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "box plot",
+      "definition": "A graph that shows data divided into four equal parts using a box and whiskers.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"30\" y1=\"100\" x2=\"170\" y2=\"100\" stroke=\"#1f2937\" stroke-width=\"1\" />\n  <!-- Whiskers -->\n  <line x1=\"40\" y1=\"85\" x2=\"40\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"160\" y1=\"85\" x2=\"160\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"100\" x2=\"70\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"130\" y1=\"100\" x2=\"160\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <!-- Box -->\n  <rect x=\"70\" y=\"80\" width=\"60\" height=\"40\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"100\" y1=\"80\" x2=\"100\" y2=\"120\" stroke=\"#ef4444\" stroke-width=\"3\" />\n  <text x=\"55\" y=\"145\" font-size=\"11\" fill=\"#1f2937\">Shows data spread</text>\n\n</svg>"
+    },
+    {
+      "term": "categorical variable",
+      "definition": "Data that can be grouped into categories like colors, names, or types rather than numbers.",
+      "domain": "Statistics",
+      "examples": [
+        "favorite sport",
+        "eye color",
+        "type of pet"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Categorical Variable</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "central angle",
+      "definition": "An angle whose vertex is at the center of a circle.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Central Angle</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "circle graph",
+      "definition": "A round graph divided into slices that show parts of a whole, also called a pie chart.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"60\" fill=\"#3b82f6\" />\n  <path d=\"M 100 100 L 100 40 A 60 60 0 0 1 160 100 Z\" fill=\"#10b981\" />\n  <path d=\"M 100 100 L 160 100 A 60 60 0 0 1 130 151.96 Z\" fill=\"#f59e0b\" />\n  <path d=\"M 100 100 L 130 151.96 A 60 60 0 0 1 40 100 Z\" fill=\"#ef4444\" />\n  <text x=\"55\" y=\"185\" font-size=\"11\" fill=\"#1f2937\">Parts of whole</text>\n\n</svg>"
+    },
+    {
+      "term": "circumference",
+      "definition": "The distance around the outside of a circle, like the perimeter but for circles.",
+      "domain": "Measurement",
+      "examples": [
+        "A circle with radius 5 has circumference about 31.4"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"60\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"4\" stroke-dasharray=\"8,4\" />\n  <path d=\"M 160 100 A 60 60 0 0 1 100 160\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"4\" marker-end=\"url(#arrowhead)\" />\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#f59e0b\" />\n    </marker>\n  </defs>\n  <text x=\"60\" y=\"50\" font-size=\"12\" fill=\"#1f2937\" font-weight=\"bold\">distance</text>\n  <text x=\"65\" y=\"65\" font-size=\"12\" fill=\"#1f2937\" font-weight=\"bold\">around</text>\n\n</svg>"
+    },
+    {
+      "term": "cluster",
+      "definition": "A group of data points that are close together on a graph or in a data set.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Cluster</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "cluster sample",
+      "definition": "Choosing groups randomly and then studying everyone in those groups, like surveying two whole classrooms.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Cluster Sample</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "coefficient",
+      "definition": "The number that multiplies a variable in algebra, like the 4 in 4x.",
+      "domain": "Algebra",
+      "examples": [
+        "In 7y, the coefficient is 7",
+        "In -3a, the coefficient is -3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"60\" y=\"100\" font-size=\"48\" fill=\"#ef4444\" font-weight=\"bold\">4</text>\n  <text x=\"95\" y=\"100\" font-size=\"48\" fill=\"#3b82f6\" font-weight=\"bold\">x</text>\n  <line x1=\"55\" y1=\"110\" x2=\"85\" y2=\"110\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"40\" y=\"140\" font-size=\"12\" fill=\"#ef4444\">coefficient</text>\n  <text x=\"40\" y=\"160\" font-size=\"12\" fill=\"#1f2937\">(multiplies variable)</text>\n\n</svg>"
+    },
+    {
+      "term": "combining like terms",
+      "definition": "Adding or subtracting terms that have the same variable, like turning 3x + 5x into 8x.",
+      "domain": "Algebra",
+      "examples": [
+        "2a + 3a = 5a"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Combining</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Like</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Terms</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Commutative Property",
+      "definition": "You can switch the order of numbers when adding or multiplying and get the same answer.",
+      "domain": "Algebra",
+      "examples": [
+        "3 + 5 = 5 + 3",
+        "2 × 4 = 4 × 2"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Commutative Property</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Commutative Property of Multiplication",
+      "definition": "You can multiply numbers in any order and get the same result.",
+      "domain": "Algebra",
+      "examples": [
+        "6 × 7 = 7 × 6"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Commutative</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Property</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "complement",
+      "definition": "All the outcomes in a sample space that are NOT in your event.",
+      "domain": "Probability",
+      "examples": [
+        "If event is rolling even, complement is rolling odd"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Complement</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "complementary angles",
+      "definition": "Two angles that add up to exactly 90 degrees.",
+      "domain": "Geometry",
+      "examples": [
+        "60° and 30°",
+        "45° and 45°"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"50\" y1=\"120\" x2=\"120\" y2=\"120\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"120\" x2=\"50\" y2=\"50\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"120\" x2=\"95\" y2=\"75\" stroke=\"#10b981\" stroke-width=\"3\" />\n  <path d=\"M 70 120 A 20 20 0 0 1 50 100\" fill=\"#fbbf24\" fill-opacity=\"0.3\" />\n  <path d=\"M 62 108 A 20 20 0 0 1 50 90\" fill=\"#3b82f6\" fill-opacity=\"0.3\" />\n  <text x=\"130\" y=\"100\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">30° + 60°</text>\n  <text x=\"140\" y=\"120\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">= 90°</text>\n\n</svg>"
+    },
+    {
+      "term": "compound events",
+      "definition": "Two or more events happening together, like flipping a coin and rolling a die.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"70\" cy=\"100\" r=\"40\" fill=\"#fbbf24\" stroke=\"#f59e0b\" stroke-width=\"3\" />\n  <text x=\"57\" y=\"112\" font-size=\"24\" fill=\"#92400e\" font-weight=\"bold\">H</text>\n  <circle cx=\"130\" cy=\"100\" r=\"40\" fill=\"#fbbf24\" stroke=\"#f59e0b\" stroke-width=\"3\" />\n  <text x=\"119\" y=\"112\" font-size=\"24\" fill=\"#92400e\" font-weight=\"bold\">T</text>\n  <text x=\"50\" y=\"170\" font-size=\"14\" fill=\"#1f2937\">Heads or Tails</text>\n\n</svg>"
+    },
+    {
+      "term": "compound interest",
+      "definition": "Interest earned on both the original amount of money and the interest already earned.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Compound Interest</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "cone",
+      "definition": "A 3D shape with a circular base that comes to a point at the top, like an ice cream cone.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <ellipse cx=\"100\" cy=\"160\" rx=\"60\" ry=\"15\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <path d=\"M 40 160 L 100 40 L 160 160\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <circle cx=\"100\" cy=\"40\" r=\"3\" fill=\"#ef4444\" />\n\n</svg>"
+    },
+    {
+      "term": "confluent",
+      "definition": "Lines or paths that come together and meet at a point.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Confluent</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "conjecture",
+      "definition": "An educated guess about a math pattern that you think is true but haven't proven yet.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Conjecture</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "consecutive integers",
+      "definition": "Whole numbers that follow each other in order, like 5, 6, and 7.",
+      "domain": "Numbers",
+      "examples": [
+        "3, 4, 5",
+        "-2, -1, 0, 1"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Consecutive Integers</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "constant of proportionality",
+      "definition": "The constant number you multiply by in a proportional relationship, shown as k in y = kx.",
+      "domain": "Ratios",
+      "examples": [
+        "In y = 3x, the constant is 3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Constant</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Proportionality</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "constant term",
+      "definition": "A number in an expression that stands alone without a variable, like the 5 in 2x + 5.",
+      "domain": "Algebra",
+      "examples": [
+        "In 4a + 7, the constant term is 7"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"30\" y=\"90\" font-size=\"28\" fill=\"#1f2937\" font-weight=\"bold\">2x +</text>\n  <text x=\"105\" y=\"90\" font-size=\"28\" fill=\"#ef4444\" font-weight=\"bold\">7</text>\n  <line x1=\"105\" y1=\"95\" x2=\"130\" y2=\"95\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"80\" y=\"130\" font-size=\"12\" fill=\"#ef4444\">constant</text>\n  <text x=\"65\" y=\"150\" font-size=\"12\" fill=\"#1f2937\">(no variable)</text>\n\n</svg>"
+    },
+    {
+      "term": "construction",
+      "definition": "Drawing a geometric figure precisely using only a compass and straightedge.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Construction</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "continuous graph",
+      "definition": "A graph made of a connected line or curve with no breaks or gaps.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Continuous Graph</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "convenience sample",
+      "definition": "Choosing people for a survey based on who is easiest to reach, which may be biased.",
+      "domain": "Probability",
+      "examples": [
+        "surveying only people at the mall"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Convenience Sample</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "corresponding angles",
+      "definition": "Angles in the same position when a line crosses two parallel lines, and they're equal.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Corresponding Angles</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "corresponding parts",
+      "definition": "Matching sides and angles in congruent or similar figures.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Corresponding Parts</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "counterexample",
+      "definition": "An example that proves a statement or conjecture is false.",
+      "domain": "Algebra",
+      "examples": [
+        "To disprove 'all numbers are positive,' use -3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Counterexample</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "cross section",
+      "definition": "The shape you see when you slice through a 3D object, like cutting through an orange.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Cross Section</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "cube (of a number)",
+      "definition": "Multiplying a number by itself three times, like 2³ = 2 × 2 × 2 = 8.",
+      "domain": "Numbers",
+      "examples": [
+        "4³ = 64",
+        "3³ = 27"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">2</text>\n  <text x=\"75\" y=\"55\" font-size=\"24\" fill=\"#ef4444\" font-weight=\"bold\">3</text>\n  <text x=\"110\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">=8</text>\n  <text x=\"40\" y=\"120\" font-size=\"14\" fill=\"#1f2937\">2 × 2 × 2 = 8</text>\n  <!-- Small cube visual -->\n  <rect x=\"45\" y=\"140\" width=\"30\" height=\"30\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"45,140 55,130 85,130 75,140\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"75,140 85,130 85,160 75,170\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "cube root",
+      "definition": "The number that when multiplied by itself three times gives you the original number.",
+      "domain": "Numbers",
+      "examples": [
+        "The cube root of 27 is 3 because 3³ = 27"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"30\" y=\"80\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">√</text>\n  <line x1=\"50\" y1=\"45\" x2=\"85\" y2=\"45\" stroke=\"#1f2937\" stroke-width=\"3\" />\n  <text x=\"55\" y=\"75\" font-size=\"32\" fill=\"#1f2937\" font-weight=\"bold\">25</text>\n  <text x=\"100\" y=\"80\" font-size=\"40\" fill=\"#10b981\" font-weight=\"bold\">=5</text>\n  <text x=\"30\" y=\"130\" font-size=\"12\" fill=\"#1f2937\">5 × 5 = 25</text>\n\n</svg>"
+    },
+    {
+      "term": "cylinder",
+      "definition": "A 3D shape with two circular bases connected by a curved side, like a soup can.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <ellipse cx=\"100\" cy=\"60\" rx=\"50\" ry=\"15\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"50\" y=\"60\" width=\"100\" height=\"90\" fill=\"#3b82f6\" stroke=\"none\" />\n  <line x1=\"50\" y1=\"60\" x2=\"50\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"150\" y1=\"60\" x2=\"150\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <ellipse cx=\"100\" cy=\"150\" rx=\"50\" ry=\"15\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "degree",
+      "definition": "A unit for measuring angles, where a full circle is 360 degrees.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Degree</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "dependent events",
+      "definition": "Events where the outcome of one affects the probability of the other happening.",
+      "domain": "Probability",
+      "examples": [
+        "drawing two cards without replacing the first"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Dependent Events</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "dependent variable",
+      "definition": "The variable that changes based on another variable, usually shown on the y-axis.",
+      "domain": "Algebra",
+      "examples": [
+        "In y = 2x, y is the dependent variable"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Dependent Variable</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "desired outcomes",
+      "definition": "The specific results you're looking for when calculating probability.",
+      "domain": "Probability",
+      "examples": [
+        "rolling a 5 or 6 on a die"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Desired Outcomes</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "diameter",
+      "definition": "A line segment that goes straight across a circle through its center.",
+      "domain": "Geometry",
+      "examples": [
+        "twice the radius"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"60\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"100\" x2=\"160\" y2=\"100\" stroke=\"#ef4444\" stroke-width=\"3\" />\n  <circle cx=\"40\" cy=\"100\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"160\" cy=\"100\" r=\"4\" fill=\"#ef4444\" />\n  <text x=\"75\" y=\"90\" font-size=\"14\" fill=\"#ef4444\" font-weight=\"bold\">diameter</text>\n\n</svg>"
+    },
+    {
+      "term": "dilation",
+      "definition": "Making a shape larger or smaller while keeping the same shape, like zooming in or out.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"3\" fill=\"#ef4444\" />\n  <polygon points=\"70,70 130,70 130,130 70,130\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"50,50 150,50 150,150 50,150\" fill=\"none\" stroke=\"#10b981\" stroke-width=\"2\" stroke-dasharray=\"5,3\" />\n  <text x=\"60\" y=\"180\" font-size=\"12\" fill=\"#1f2937\">Enlarge/shrink</text>\n\n</svg>"
+    },
+    {
+      "term": "discrete graph",
+      "definition": "A graph made of separate, individual points that are not connected.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Discrete Graph</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Distributive Property",
+      "definition": "Multiplying a number by a sum is the same as multiplying each addend separately.",
+      "domain": "Algebra",
+      "examples": [
+        "3(x + 4) = 3x + 12"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Distributive Property</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "edge",
+      "definition": "A line segment where two faces of a 3D shape meet.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Edge</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "equation",
+      "definition": "A math sentence that shows two expressions are equal using an equals sign.",
+      "domain": "Algebra",
+      "examples": [
+        "2x + 3 = 11",
+        "y = 5x - 2"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"25\" y=\"90\" font-size=\"28\" fill=\"#1f2937\" font-weight=\"bold\">2x + 3 = 11</text>\n  <rect x=\"80\" y=\"65\" width=\"20\" height=\"30\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"75\" y=\"135\" font-size=\"12\" fill=\"#ef4444\">Equal sign!</text>\n\n</svg>"
+    },
+    {
+      "term": "Equation Mat",
+      "definition": "A tool with two sides for solving equations by keeping both sides balanced.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Equation Mat</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Equal Values Method",
+      "definition": "Solving a system of equations by setting two expressions equal to each other.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Equal</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Values</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Method</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "equivalent",
+      "definition": "Having the same value, even if they look different.",
+      "domain": "Numbers",
+      "examples": [
+        "½ and 2/4 are equivalent"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Equivalent</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "equivalent expressions",
+      "definition": "Algebraic expressions that have the same value for all values of the variables.",
+      "domain": "Algebra",
+      "examples": [
+        "3(x + 2) and 3x + 6"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Equivalent Expressions</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "equivalent fractions",
+      "definition": "Fractions that represent the same amount but have different numerators and denominators.",
+      "domain": "Numbers",
+      "examples": [
+        "½ = 2/4 = 3/6"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"20\" y=\"40\" width=\"60\" height=\"30\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"20\" y=\"40\" width=\"30\" height=\"30\" fill=\"#3b82f6\" fill-opacity=\"0.6\" />\n  <line x1=\"50\" y1=\"40\" x2=\"50\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <text x=\"30\" y=\"95\" font-size=\"14\" fill=\"#1f2937\">1/2</text>\n  \n  <text x=\"90\" y=\"60\" font-size=\"18\" fill=\"#10b981\" font-weight=\"bold\">=</text>\n  \n  <rect x=\"120\" y=\"40\" width=\"60\" height=\"30\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"120\" y=\"40\" width=\"30\" height=\"30\" fill=\"#3b82f6\" fill-opacity=\"0.6\" />\n  <line x1=\"135\" y1=\"40\" x2=\"135\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"150\" y1=\"40\" x2=\"150\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"165\" y1=\"40\" x2=\"165\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <text x=\"130\" y=\"95\" font-size=\"14\" fill=\"#1f2937\">2/4</text>\n  <text x=\"45\" y=\"130\" font-size=\"12\" fill=\"#1f2937\">Same amount!</text>\n\n</svg>"
+    },
+    {
+      "term": "equivalent ratios",
+      "definition": "Ratios that express the same relationship between quantities.",
+      "domain": "Ratios",
+      "examples": [
+        "2:3 is equivalent to 4:6"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"50\" cy=\"70\" r=\"20\" fill=\"#3b82f6\" />\n  <circle cx=\"110\" cy=\"70\" r=\"20\" fill=\"#3b82f6\" />\n  <circle cx=\"50\" cy=\"130\" r=\"20\" fill=\"#ef4444\" />\n  <circle cx=\"110\" cy=\"130\" r=\"20\" fill=\"#ef4444\" />\n  <circle cx=\"170\" cy=\"130\" r=\"20\" fill=\"#ef4444\" />\n  <text x=\"50\" y=\"180\" font-size=\"18\" fill=\"#1f2937\" font-weight=\"bold\">2 : 3</text>\n\n</svg>"
+    },
+    {
+      "term": "evaluate",
+      "definition": "Finding the value of an expression by substituting numbers for variables and calculating.",
+      "domain": "Algebra",
+      "examples": [
+        "Evaluate 2x + 3 when x = 5 gives 13"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Evaluate</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "experimental probability",
+      "definition": "The probability found by doing an experiment and recording what actually happens.",
+      "domain": "Probability",
+      "examples": [
+        "flipping a coin 100 times and recording results"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Experimental Probability</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "exponent",
+      "definition": "A small number that tells how many times to multiply the base by itself.",
+      "domain": "Numbers",
+      "examples": [
+        "In 5³, the exponent 3 means 5 × 5 × 5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"80\" font-size=\"48\" fill=\"#1f2937\" font-weight=\"bold\">5</text>\n  <text x=\"80\" y=\"60\" font-size=\"28\" fill=\"#ef4444\" font-weight=\"bold\">3</text>\n  <text x=\"35\" y=\"130\" font-size=\"14\" fill=\"#1f2937\">= 5 × 5 × 5</text>\n  <text x=\"55\" y=\"155\" font-size=\"14\" fill=\"#1f2937\">= 125</text>\n  <rect x=\"75\" y=\"40\" width=\"35\" height=\"35\" fill=\"none\" stroke=\"#ef4444\" stroke-width=\"2\" rx=\"3\" />\n  <text x=\"115\" y=\"57\" font-size=\"11\" fill=\"#ef4444\">exponent</text>\n\n</svg>"
+    },
+    {
+      "term": "exponential growth",
+      "definition": "When a quantity increases by multiplying by the same factor repeatedly, growing very quickly.",
+      "domain": "Algebra",
+      "examples": [
+        "bacteria doubling every hour"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Exponential Growth</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "expression",
+      "definition": "A math phrase with numbers, variables, and operations but no equals sign.",
+      "domain": "Algebra",
+      "examples": [
+        "5x + 3",
+        "2a - 7b"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"90\" font-size=\"32\" fill=\"#1f2937\" font-weight=\"bold\">3x + 5</text>\n  <text x=\"35\" y=\"130\" font-size=\"12\" fill=\"#3b82f6\">No = sign</text>\n\n</svg>"
+    },
+    {
+      "term": "Expression Comparison Mat",
+      "definition": "A tool for comparing two algebraic expressions side by side.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Expression</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Comparison</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Mat</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "exterior angle (of a triangle)",
+      "definition": "An angle formed outside a triangle when you extend one of its sides.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Exterior</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Angle</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "face",
+      "definition": "A flat surface on a 3D shape.",
+      "domain": "Geometry",
+      "examples": [
+        "A cube has 6 faces"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Face</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "factor (to factor)",
+      "definition": "Breaking down a number or expression into parts that multiply together to make it.",
+      "domain": "Algebra",
+      "examples": [
+        "Factor 12 into 3 × 4"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Factor</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">To</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Factor</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "factoring",
+      "definition": "The process of writing a number or expression as a product of its factors.",
+      "domain": "Algebra",
+      "examples": [
+        "Factoring 2x + 6 gives 2(x + 3)"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Factoring</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "first quartile",
+      "definition": "The value that is greater than 25% of the data and less than 75% of the data.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">First Quartile</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "four-quadrant graph",
+      "definition": "A coordinate plane divided into four sections by horizontal and vertical axes.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#1f2937\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#1f2937\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"100\" y1=\"180\" x2=\"100\" y2=\"20\" stroke=\"#1f2937\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <text x=\"170\" y=\"120\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">x</text>\n  <text x=\"110\" y=\"30\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">y</text>\n  <circle cx=\"140\" cy=\"60\" r=\"4\" fill=\"#ef4444\" />\n  <text x=\"145\" y=\"65\" font-size=\"12\" fill=\"#ef4444\">(x,y)</text>\n\n</svg>"
+    },
+    {
+      "term": "Fraction Buster Method",
+      "definition": "A technique for eliminating fractions from an equation by multiplying everything by a common denominator.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Fraction</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Buster</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Method</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Fraction Busters",
+      "definition": "Multiplying both sides of an equation by the same number to clear fractions.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Fraction Busters</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "fraction greater than one",
+      "definition": "A fraction where the numerator is larger than the denominator, also called an improper fraction.",
+      "domain": "Numbers",
+      "examples": [
+        "7/4",
+        "5/3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Fraction</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Greater</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Than</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "frequency table",
+      "definition": "A table that shows how many times each value or category appears in a data set.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"40\" y1=\"160\" x2=\"160\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"40\" x2=\"40\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <rect x=\"55\" y=\"100\" width=\"20\" height=\"60\" fill=\"#3b82f6\" />\n  <rect x=\"85\" y=\"70\" width=\"20\" height=\"90\" fill=\"#10b981\" />\n  <rect x=\"115\" y=\"90\" width=\"20\" height=\"70\" fill=\"#f59e0b\" />\n  <text x=\"50\" y=\"20\" font-size=\"12\" fill=\"#1f2937\" font-weight=\"bold\">Bar Graph</text>\n\n</svg>"
+    },
+    {
+      "term": "function",
+      "definition": "A rule that assigns exactly one output value for each input value.",
+      "domain": "Algebra",
+      "examples": [
+        "y = 2x + 1 is a function"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Function</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "Giant One",
+      "definition": "A fraction equal to one that you multiply by to create equivalent fractions or ratios.",
+      "domain": "Numbers",
+      "examples": [
+        "2/2",
+        "5/5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Giant One</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "graph",
+      "definition": "A visual way to show data or relationships using points, lines, or bars.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"40\" y1=\"160\" x2=\"160\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"40\" x2=\"40\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <rect x=\"55\" y=\"100\" width=\"20\" height=\"60\" fill=\"#3b82f6\" />\n  <rect x=\"85\" y=\"70\" width=\"20\" height=\"90\" fill=\"#10b981\" />\n  <rect x=\"115\" y=\"90\" width=\"20\" height=\"70\" fill=\"#f59e0b\" />\n  <text x=\"50\" y=\"20\" font-size=\"12\" fill=\"#1f2937\" font-weight=\"bold\">Bar Graph</text>\n\n</svg>"
+    },
+    {
+      "term": "growth",
+      "definition": "How much something increases in size or value over time.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Growth</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "growth triangle",
+      "definition": "A right triangle used to find the slope of a line by showing vertical and horizontal change.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Growth Triangle</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "height",
+      "definition": "The perpendicular distance from the base to the top of a shape.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Height</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "histogram",
+      "definition": "A bar graph that shows how often data values fall within specific ranges or intervals.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"30\" y1=\"160\" x2=\"170\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"30\" y1=\"40\" x2=\"30\" y2=\"160\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <rect x=\"30\" y=\"110\" width=\"28\" height=\"50\" fill=\"#3b82f6\" stroke=\"white\" stroke-width=\"1\" />\n  <rect x=\"58\" y=\"80\" width=\"28\" height=\"80\" fill=\"#3b82f6\" stroke=\"white\" stroke-width=\"1\" />\n  <rect x=\"86\" y=\"100\" width=\"28\" height=\"60\" fill=\"#3b82f6\" stroke=\"white\" stroke-width=\"1\" />\n  <rect x=\"114\" y=\"120\" width=\"28\" height=\"40\" fill=\"#3b82f6\" stroke=\"white\" stroke-width=\"1\" />\n  <rect x=\"142\" y=\"130\" width=\"28\" height=\"30\" fill=\"#3b82f6\" stroke=\"white\" stroke-width=\"1\" />\n  <text x=\"55\" y=\"185\" font-size=\"11\" fill=\"#1f2937\">Data in ranges</text>\n\n</svg>"
+    },
+    {
+      "term": "hypotenuse",
+      "definition": "The longest side of a right triangle, located across from the right angle.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"50,150 50,70 140,150\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <rect x=\"50\" y=\"135\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"35\" y=\"115\" font-size=\"12\" fill=\"#10b981\" font-weight=\"bold\">leg</text>\n  <text x=\"85\" y=\"175\" font-size=\"12\" fill=\"#10b981\" font-weight=\"bold\">leg</text>\n  <text x=\"95\" y=\"100\" font-size=\"12\" fill=\"#ef4444\" font-weight=\"bold\">hypotenuse</text>\n\n</svg>"
+    },
+    {
+      "term": "independent events",
+      "definition": "Events where one happening doesn't change the probability of the other happening.",
+      "domain": "Probability",
+      "examples": [
+        "flipping a coin and rolling a die"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Independent Events</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "independent variable",
+      "definition": "The variable you can control or change, usually shown on the x-axis.",
+      "domain": "Algebra",
+      "examples": [
+        "In y = 2x, x is the independent variable"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Independent Variable</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "inference",
+      "definition": "A conclusion about a whole population based on data from a sample.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Inference</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "inequality",
+      "definition": "A math sentence that compares two expressions using symbols like <, >, ≤, or ≥.",
+      "domain": "Algebra",
+      "examples": [
+        "x > 5",
+        "2y ≤ 10"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"80\" font-size=\"36\" fill=\"#1f2937\" font-weight=\"bold\">x &gt; 5</text>\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#3b82f6\" />\n    </marker>\n  </defs>\n  <line x1=\"30\" y1=\"130\" x2=\"170\" y2=\"130\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"100\" y1=\"125\" x2=\"100\" y2=\"135\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <circle cx=\"100\" cy=\"130\" r=\"5\" fill=\"white\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <line x1=\"105\" y1=\"130\" x2=\"165\" y2=\"130\" stroke=\"#3b82f6\" stroke-width=\"4\" marker-end=\"url(#arrowhead)\" />\n  <text x=\"95\" y=\"155\" font-size=\"12\" fill=\"#1f2937\">5</text>\n  <text x=\"40\" y=\"180\" font-size=\"11\" fill=\"#1f2937\">Greater than 5</text>\n\n</svg>"
+    },
+    {
+      "term": "inequality symbols",
+      "definition": "The symbols used to compare values: < (less than), > (greater than), ≤, and ≥.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Inequality Symbols</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "integers",
+      "definition": "All positive and negative whole numbers, including zero.",
+      "domain": "Numbers",
+      "examples": [
+        "-3, -2, -1, 0, 1, 2, 3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#1f2937\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#1f2937\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"30\" y1=\"95\" x2=\"30\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"60\" y1=\"95\" x2=\"60\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"90\" y1=\"95\" x2=\"90\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"120\" y1=\"95\" x2=\"120\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <line x1=\"150\" y1=\"95\" x2=\"150\" y2=\"105\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <text x=\"23\" y=\"125\" font-size=\"14\" fill=\"#ef4444\">-2</text>\n  <text x=\"53\" y=\"125\" font-size=\"14\" fill=\"#ef4444\">-1</text>\n  <text x=\"87\" y=\"125\" font-size=\"14\" fill=\"#10b981\">0</text>\n  <text x=\"118\" y=\"125\" font-size=\"14\" fill=\"#3b82f6\">1</text>\n  <text x=\"148\" y=\"125\" font-size=\"14\" fill=\"#3b82f6\">2</text>\n  <text x=\"40\" y=\"150\" font-size=\"11\" fill=\"#1f2937\">Whole numbers (+ and -)</text>\n\n</svg>"
+    },
+    {
+      "term": "interest",
+      "definition": "Extra money you earn when saving or pay when borrowing, usually a percentage of the amount.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Interest</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "interval",
+      "definition": "A range of values between two numbers, often used in graphs and data organization.",
+      "domain": "Statistics",
+      "examples": [
+        "ages 10-15"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Interval</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "interquartile range (IQR)",
+      "definition": "The difference between the third quartile and first quartile, showing the spread of the middle data.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Interquartile</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Range</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Iqr</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "irrational numbers",
+      "definition": "Numbers that cannot be written as a simple fraction and have decimals that never end or repeat.",
+      "domain": "Numbers",
+      "examples": [
+        "Ï€ (pi)",
+        "âˆš2"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Irrational Numbers</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "lateral face",
+      "definition": "A side face of a 3D shape that is not the base.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Lateral Face</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "lateral faces",
+      "definition": "All the side faces of a 3D shape except for the base(s).",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Lateral Faces</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "lattice points",
+      "definition": "Points on a graph where grid lines cross and both coordinates are whole numbers.",
+      "domain": "Algebra",
+      "examples": [
+        "(2, 3)",
+        "(5, -1)"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Lattice Points</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "legs (of a right triangle)",
+      "definition": "The two shorter sides of a right triangle that form the right angle.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"50,150 50,70 140,150\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <rect x=\"50\" y=\"135\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"35\" y=\"115\" font-size=\"12\" fill=\"#10b981\" font-weight=\"bold\">leg</text>\n  <text x=\"85\" y=\"175\" font-size=\"12\" fill=\"#10b981\" font-weight=\"bold\">leg</text>\n  <text x=\"95\" y=\"100\" font-size=\"12\" fill=\"#ef4444\" font-weight=\"bold\">hypotenuse</text>\n\n</svg>"
+    },
+    {
+      "term": "line of best fit",
+      "definition": "A straight line drawn through data points that best represents the trend or pattern.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#9ca3af\" />\n    </marker>\n  </defs>\n  <line x1=\"30\" y1=\"170\" x2=\"170\" y2=\"170\" stroke=\"#9ca3af\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"30\" y1=\"170\" x2=\"30\" y2=\"30\" stroke=\"#9ca3af\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <circle cx=\"50\" cy=\"150\" r=\"4\" fill=\"#3b82f6\" />\n  <circle cx=\"70\" cy=\"135\" r=\"4\" fill=\"#3b82f6\" />\n  <circle cx=\"90\" cy=\"120\" r=\"4\" fill=\"#3b82f6\" />\n  <circle cx=\"110\" cy=\"100\" r=\"4\" fill=\"#3b82f6\" />\n  <circle cx=\"130\" cy=\"80\" r=\"4\" fill=\"#3b82f6\" />\n  <circle cx=\"150\" cy=\"65\" r=\"4\" fill=\"#3b82f6\" />\n  <text x=\"45\" y=\"20\" font-size=\"11\" fill=\"#1f2937\">Points show</text>\n  <text x=\"45\" y=\"33\" font-size=\"11\" fill=\"#1f2937\">relationships</text>\n\n</svg>"
+    },
+    {
+      "term": "linear equation",
+      "definition": "An equation whose graph is a straight line, usually in the form y = mx + b.",
+      "domain": "Algebra",
+      "examples": [
+        "y = 3x + 2",
+        "2x + y = 5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#9ca3af\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#d1d5db\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"100\" y1=\"180\" x2=\"100\" y2=\"20\" stroke=\"#d1d5db\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"30\" y1=\"150\" x2=\"170\" y2=\"50\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <text x=\"40\" y=\"35\" font-size=\"16\" fill=\"#1f2937\" font-weight=\"bold\">y = mx + b</text>\n  <text x=\"50\" y=\"185\" font-size=\"12\" fill=\"#1f2937\">straight line</text>\n\n</svg>"
+    },
+    {
+      "term": "linear growth",
+      "definition": "When something increases by adding the same amount each time, creating a straight line graph.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Linear Growth</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "linear (non-linear) form",
+      "definition": "Whether an equation or pattern creates a straight line (linear) or a curve (non-linear) when graphed.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Linear</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Non-Linear</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Form</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "lowest common denominator",
+      "definition": "The smallest number that all denominators in a problem divide into evenly.",
+      "domain": "Numbers",
+      "examples": [
+        "For ½ and â…“, the LCD is 6"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Lowest</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Common</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Denominator</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "mean",
+      "definition": "The average of a set of numbers found by adding them all up and dividing by how many there are.",
+      "domain": "Statistics",
+      "examples": [
+        "Mean of 2, 4, 6 is 4"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"20\" y=\"40\" font-size=\"16\" fill=\"#1f2937\" font-weight=\"bold\">Data: 2, 3, 3, 5, 7</text>\n  <text x=\"30\" y=\"80\" font-size=\"14\" fill=\"#3b82f6\">Mean = 4</text>\n  <text x=\"100\" y=\"80\" font-size=\"11\" fill=\"#6b7280\">(average)</text>\n  <text x=\"30\" y=\"110\" font-size=\"14\" fill=\"#10b981\">Median = 3</text>\n  <text x=\"110\" y=\"110\" font-size=\"11\" fill=\"#6b7280\">(middle)</text>\n  <text x=\"30\" y=\"140\" font-size=\"14\" fill=\"#f59e0b\">Mode = 3</text>\n  <text x=\"100\" y=\"140\" font-size=\"11\" fill=\"#6b7280\">(most)</text>\n\n</svg>"
+    },
+    {
+      "term": "measure",
+      "definition": "To find the size, length, or amount of something using units.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"30\" y=\"85\" width=\"140\" height=\"30\" fill=\"#fef3c7\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"85\" x2=\"40\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"60\" y1=\"85\" x2=\"60\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"85\" x2=\"80\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"100\" y1=\"85\" x2=\"100\" y2=\"100\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"120\" y1=\"85\" x2=\"120\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"140\" y1=\"85\" x2=\"140\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"160\" y1=\"85\" x2=\"160\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <text x=\"95\" y=\"108\" font-size=\"10\" fill=\"#92400e\">5</text>\n  <text x=\"60\" y=\"140\" font-size=\"12\" fill=\"#1f2937\">Find size/length</text>\n\n</svg>"
+    },
+    {
+      "term": "measurement",
+      "definition": "A number with a unit that tells the size, length, weight, or amount of something.",
+      "domain": "Measurement",
+      "examples": [
+        "5 inches",
+        "12 pounds"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"30\" y=\"85\" width=\"140\" height=\"30\" fill=\"#fef3c7\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"40\" y1=\"85\" x2=\"40\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"60\" y1=\"85\" x2=\"60\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"85\" x2=\"80\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"100\" y1=\"85\" x2=\"100\" y2=\"100\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"120\" y1=\"85\" x2=\"120\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"140\" y1=\"85\" x2=\"140\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <line x1=\"160\" y1=\"85\" x2=\"160\" y2=\"95\" stroke=\"#f59e0b\" stroke-width=\"1.5\" />\n  <text x=\"95\" y=\"108\" font-size=\"10\" fill=\"#92400e\">5</text>\n  <text x=\"60\" y=\"140\" font-size=\"12\" fill=\"#1f2937\">Find size/length</text>\n\n</svg>"
+    },
+    {
+      "term": "measure of central tendency",
+      "definition": "A single number that represents the center or typical value of a data set.",
+      "domain": "Statistics",
+      "examples": [
+        "mean, median, and mode"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"20\" y=\"40\" font-size=\"16\" fill=\"#1f2937\" font-weight=\"bold\">Data: 2, 3, 3, 5, 7</text>\n  <text x=\"30\" y=\"80\" font-size=\"14\" fill=\"#3b82f6\">Mean = 4</text>\n  <text x=\"100\" y=\"80\" font-size=\"11\" fill=\"#6b7280\">(average)</text>\n  <text x=\"30\" y=\"110\" font-size=\"14\" fill=\"#10b981\">Median = 3</text>\n  <text x=\"110\" y=\"110\" font-size=\"11\" fill=\"#6b7280\">(middle)</text>\n  <text x=\"30\" y=\"140\" font-size=\"14\" fill=\"#f59e0b\">Mode = 3</text>\n  <text x=\"100\" y=\"140\" font-size=\"11\" fill=\"#6b7280\">(most)</text>\n\n</svg>"
+    },
+    {
+      "term": "median",
+      "definition": "The middle number when a set of data is arranged in order from smallest to largest.",
+      "domain": "Statistics",
+      "examples": [
+        "Median of 1, 3, 7 is 3"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"20\" y=\"40\" font-size=\"16\" fill=\"#1f2937\" font-weight=\"bold\">Data: 2, 3, 3, 5, 7</text>\n  <text x=\"30\" y=\"80\" font-size=\"14\" fill=\"#3b82f6\">Mean = 4</text>\n  <text x=\"100\" y=\"80\" font-size=\"11\" fill=\"#6b7280\">(average)</text>\n  <text x=\"30\" y=\"110\" font-size=\"14\" fill=\"#10b981\">Median = 3</text>\n  <text x=\"110\" y=\"110\" font-size=\"11\" fill=\"#6b7280\">(middle)</text>\n  <text x=\"30\" y=\"140\" font-size=\"14\" fill=\"#f59e0b\">Mode = 3</text>\n  <text x=\"100\" y=\"140\" font-size=\"11\" fill=\"#6b7280\">(most)</text>\n\n</svg>"
+    },
+    {
+      "term": "mixed number",
+      "definition": "A number written as a whole number and a fraction together, like 2 ½.",
+      "domain": "Numbers",
+      "examples": [
+        "3 ¼",
+        "5 â…”"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Mixed Number</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "multiplicative identity",
+      "definition": "The number one, because multiplying any number by one doesn't change it.",
+      "domain": "Numbers",
+      "examples": [
+        "7 × 1 = 7"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Multiplicative Identity</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "multiplicative inverse",
+      "definition": "Two numbers that multiply together to equal one, also called reciprocals.",
+      "domain": "Numbers",
+      "examples": [
+        "3 and â…“",
+        "5 and â…•"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Multiplicative Inverse</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "mutually exclusive",
+      "definition": "Events that cannot happen at the same time.",
+      "domain": "Probability",
+      "examples": [
+        "rolling an odd number and even number on one die"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Mutually Exclusive</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "negative association",
+      "definition": "When one variable increases and the other tends to decrease in a data set.",
+      "domain": "Statistics",
+      "examples": [
+        "hours of TV watched and test scores"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Negative Association</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "non-commensurate",
+      "definition": "Numbers or quantities that don't share a common unit of measurement.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Non-Commensurate</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "numerical term",
+      "definition": "A term in an expression that is just a number without a variable.",
+      "domain": "Algebra",
+      "examples": [
+        "the 8 in 3x + 8"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Numerical Term</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "obtuse angle",
+      "definition": "An angle that measures more than 90 degrees but less than 180 degrees.",
+      "domain": "Geometry",
+      "examples": [
+        "120°",
+        "150°"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#2563eb\" />\n    </marker>\n  </defs>\n  <line x1=\"50\" y1=\"150\" x2=\"150\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"3\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"50\" y1=\"150\" x2=\"70\" y2=\"60\" stroke=\"#2563eb\" stroke-width=\"3\" marker-end=\"url(#arrowhead)\" />\n  <path d=\"M 70 150 A 30 30 0 0 1 51 125\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"75\" y=\"125\" font-size=\"16\" fill=\"#f59e0b\" font-weight=\"bold\">120°</text>\n\n</svg>"
+    },
+    {
+      "term": "Order of Operations",
+      "definition": "The rules for which calculations to do first: parentheses, exponents, multiply/divide, add/subtract (PEMDAS).",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Order</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Operations</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "outcome",
+      "definition": "A possible result of a probability experiment.",
+      "domain": "Probability",
+      "examples": [
+        "heads or tails when flipping a coin"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"50\" y=\"50\" width=\"100\" height=\"100\" rx=\"10\" fill=\"white\" stroke=\"#1f2937\" stroke-width=\"3\" />\n  <circle cx=\"75\" cy=\"75\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"100\" cy=\"100\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"125\" cy=\"125\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"125\" cy=\"75\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"75\" cy=\"125\" r=\"8\" fill=\"#1f2937\" />\n\n</svg>"
+    },
+    {
+      "term": "outlier",
+      "definition": "A data point that is much higher or lower than most of the other data.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"40\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"70\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"90\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"105\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"118\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"170\" cy=\"100\" r=\"8\" fill=\"#ef4444\" />\n  <line x1=\"165\" y1=\"95\" x2=\"175\" y2=\"105\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <line x1=\"165\" y1=\"105\" x2=\"175\" y2=\"95\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"40\" y=\"140\" font-size=\"12\" fill=\"#1f2937\">Far from others</text>\n\n</svg>"
+    },
+    {
+      "term": "outliers",
+      "definition": "Data values that are unusually far away from the rest of the data in a set.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"40\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"70\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"90\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"105\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"118\" cy=\"100\" r=\"5\" fill=\"#3b82f6\" />\n  <circle cx=\"170\" cy=\"100\" r=\"8\" fill=\"#ef4444\" />\n  <line x1=\"165\" y1=\"95\" x2=\"175\" y2=\"105\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <line x1=\"165\" y1=\"105\" x2=\"175\" y2=\"95\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"40\" y=\"140\" font-size=\"12\" fill=\"#1f2937\">Far from others</text>\n\n</svg>"
+    },
+    {
+      "term": "parabola",
+      "definition": "A U-shaped curve that is the graph of a quadratic equation.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#9ca3af\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#d1d5db\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"100\" y1=\"180\" x2=\"100\" y2=\"20\" stroke=\"#d1d5db\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <path d=\"M 30 180 Q 100 60 170 180\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <text x=\"60\" y=\"40\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">U-shaped</text>\n  <text x=\"75\" y=\"58\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">curve</text>\n\n</svg>"
+    },
+    {
+      "term": "parallel",
+      "definition": "Lines that never intersect and stay the same distance apart forever, like train tracks.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"30\" y1=\"70\" x2=\"170\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"30\" y1=\"130\" x2=\"170\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"35\" y1=\"73\" x2=\"41\" y2=\"73\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"35\" y1=\"80\" x2=\"41\" y2=\"80\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"35\" y1=\"133\" x2=\"41\" y2=\"133\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"35\" y1=\"140\" x2=\"41\" y2=\"140\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"55\" y=\"105\" font-size=\"12\" fill=\"#1f2937\">Never meet</text>\n\n</svg>"
+    },
+    {
+      "term": "parallelogram",
+      "definition": "A four-sided shape where opposite sides are parallel and equal in length.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"60,60 160,60 140,140 40,140\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"62\" y1=\"65\" x2=\"68\" y2=\"65\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"62\" y1=\"72\" x2=\"68\" y2=\"72\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"142\" y1=\"135\" x2=\"148\" y2=\"135\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"142\" y1=\"128\" x2=\"148\" y2=\"128\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "parameter",
+      "definition": "A number that describes a characteristic of an entire population.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Parameter</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "partition",
+      "definition": "Dividing something into separate parts or sections.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Partition</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "percent",
+      "definition": "A ratio that compares a number to 100, shown with the % symbol.",
+      "domain": "Ratios",
+      "examples": [
+        "50% means 50 out of 100"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"30\" y=\"30\" width=\"140\" height=\"140\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <!-- Create 10x10 grid and fill 50 squares -->\n  <rect x=\"30\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"30\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"44\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"58\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"72\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"86\" width=\"14\" height=\"14\" fill=\"#3b82f6\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"100\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"114\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"128\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"142\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"30\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"44\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"58\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"72\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"86\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"100\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"114\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"128\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"142\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" /><rect x=\"156\" y=\"156\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"0.5\" />\n  <text x=\"60\" y=\"190\" font-size=\"20\" fill=\"#1f2937\" font-weight=\"bold\">50%</text>\n\n</svg>"
+    },
+    {
+      "term": "percent change",
+      "definition": "The amount something increases or decreases expressed as a percentage of the original amount.",
+      "domain": "Ratios",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Percent Change</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "perfect cube",
+      "definition": "A number that is the result of multiplying a whole number by itself three times.",
+      "domain": "Numbers",
+      "examples": [
+        "8 (2³)",
+        "27 (3³)",
+        "64 (4³)"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">2</text>\n  <text x=\"75\" y=\"55\" font-size=\"24\" fill=\"#ef4444\" font-weight=\"bold\">3</text>\n  <text x=\"110\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">=8</text>\n  <text x=\"40\" y=\"120\" font-size=\"14\" fill=\"#1f2937\">2 × 2 × 2 = 8</text>\n  <!-- Small cube visual -->\n  <rect x=\"45\" y=\"140\" width=\"30\" height=\"30\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"45,140 55,130 85,130 75,140\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"75,140 85,130 85,160 75,170\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "perfect square",
+      "definition": "A number that is the result of multiplying a whole number by itself.",
+      "domain": "Numbers",
+      "examples": [
+        "4 (2²)",
+        "9 (3²)",
+        "16 (4²)"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">4</text>\n  <text x=\"75\" y=\"55\" font-size=\"24\" fill=\"#ef4444\" font-weight=\"bold\">2</text>\n  <text x=\"110\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">=16</text>\n  <rect x=\"40\" y=\"100\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"55\" y1=\"100\" x2=\"55\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"70\" y1=\"100\" x2=\"70\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"85\" y1=\"100\" x2=\"85\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"115\" x2=\"100\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"130\" x2=\"100\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"145\" x2=\"100\" y2=\"145\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <text x=\"110\" y=\"135\" font-size=\"12\" fill=\"#2563eb\">4×4 grid</text>\n\n</svg>"
+    },
+    {
+      "term": "perimeter",
+      "definition": "The total distance around the outside of a flat shape.",
+      "domain": "Measurement",
+      "examples": [
+        "A square with sides of 4 has perimeter 16"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"50\" y=\"60\" width=\"100\" height=\"80\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"4\" stroke-dasharray=\"8,4\" />\n  <text x=\"40\" y=\"45\" font-size=\"12\" fill=\"#2563eb\" font-weight=\"bold\">→</text>\n  <text x=\"145\" y=\"60\" font-size=\"12\" fill=\"#2563eb\" font-weight=\"bold\">↓</text>\n  <text x=\"145\" y=\"145\" font-size=\"12\" fill=\"#2563eb\" font-weight=\"bold\">←</text>\n  <text x=\"40\" y=\"145\" font-size=\"12\" fill=\"#2563eb\" font-weight=\"bold\">↑</text>\n  <text x=\"45\" y=\"175\" font-size=\"13\" fill=\"#1f2937\">Distance around</text>\n\n</svg>"
+    },
+    {
+      "term": "perpendicular",
+      "definition": "Lines that meet at a right angle, forming a 90-degree corner.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"100\" y1=\"30\" x2=\"100\" y2=\"170\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"30\" y1=\"100\" x2=\"170\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <rect x=\"100\" y=\"100\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" transform=\"translate(-7.5, -7.5)\" />\n  <text x=\"120\" y=\"90\" font-size=\"14\" fill=\"#f59e0b\" font-weight=\"bold\">90°</text>\n\n</svg>"
+    },
+    {
+      "term": "pi (Ï€)",
+      "definition": "A special number (about 3.14) that represents the ratio of a circle's circumference to its diameter.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Pi Ï€</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "point of intersection",
+      "definition": "The exact point where two or more lines or curves cross each other.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Point</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Intersection</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "polygon",
+      "definition": "A closed flat shape made up of straight line segments.",
+      "domain": "Geometry",
+      "examples": [
+        "triangles, squares, pentagons"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Polygon</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "polyhedron",
+      "definition": "A 3D shape made up of flat polygon faces.",
+      "domain": "Geometry",
+      "examples": [
+        "cube",
+        "pyramid",
+        "prism"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Polyhedron</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "population",
+      "definition": "The entire group of people or things you want to study or learn about.",
+      "domain": "Statistics",
+      "examples": [
+        "all students in your school"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Population</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "positive association",
+      "definition": "When both variables in a data set tend to increase together.",
+      "domain": "Statistics",
+      "examples": [
+        "height and weight often increase together"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Positive Association</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "possible outcomes",
+      "definition": "All the different results that could happen in a probability experiment.",
+      "domain": "Probability",
+      "examples": [
+        "1, 2, 3, 4, 5, 6 when rolling a die"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"50\" y=\"50\" width=\"100\" height=\"100\" rx=\"10\" fill=\"white\" stroke=\"#1f2937\" stroke-width=\"3\" />\n  <circle cx=\"75\" cy=\"75\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"100\" cy=\"100\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"125\" cy=\"125\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"125\" cy=\"75\" r=\"8\" fill=\"#1f2937\" />\n  <circle cx=\"75\" cy=\"125\" r=\"8\" fill=\"#1f2937\" />\n\n</svg>"
+    },
+    {
+      "term": "prism",
+      "definition": "A 3D shape with two identical parallel bases connected by rectangular faces.",
+      "domain": "Geometry",
+      "examples": [
+        "rectangular prism",
+        "triangular prism"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"50,100 130,100 130,170 50,170\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"50,100 80,70 160,70 130,100\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"130,100 160,70 160,140 130,170\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "probability",
+      "definition": "A number between 0 and 1 that tells how likely something is to happen.",
+      "domain": "Probability",
+      "examples": [
+        "½ for flipping heads"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Probability</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "probability table",
+      "definition": "A chart that organizes and shows all possible outcomes and their probabilities.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Probability Table</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "probability tree",
+      "definition": "A branching diagram that shows all possible outcomes of multiple events.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"30\" cy=\"100\" r=\"8\" fill=\"#3b82f6\" />\n  <line x1=\"35\" y1=\"95\" x2=\"70\" y2=\"70\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"35\" y1=\"105\" x2=\"70\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <circle cx=\"75\" cy=\"70\" r=\"6\" fill=\"#10b981\" />\n  <circle cx=\"75\" cy=\"130\" r=\"6\" fill=\"#ef4444\" />\n  <line x1=\"80\" y1=\"68\" x2=\"110\" y2=\"55\" stroke=\"#2563eb\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"72\" x2=\"110\" y2=\"85\" stroke=\"#2563eb\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"128\" x2=\"110\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"1.5\" />\n  <line x1=\"80\" y1=\"132\" x2=\"110\" y2=\"145\" stroke=\"#2563eb\" stroke-width=\"1.5\" />\n  <circle cx=\"115\" cy=\"55\" r=\"4\" fill=\"#10b981\" />\n  <circle cx=\"115\" cy=\"85\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"115\" cy=\"115\" r=\"4\" fill=\"#10b981\" />\n  <circle cx=\"115\" cy=\"145\" r=\"4\" fill=\"#ef4444\" />\n  <text x=\"45\" y=\"185\" font-size=\"12\" fill=\"#1f2937\">All outcomes</text>\n\n</svg>"
+    },
+    {
+      "term": "principal",
+      "definition": "The original amount of money saved or borrowed before interest is added.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Principal</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "proportional relationship",
+      "definition": "A relationship where two quantities always have the same ratio, forming a straight line through the origin.",
+      "domain": "Ratios",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Proportional Relationship</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "protractor",
+      "definition": "A tool shaped like a half circle used to measure or draw angles in degrees.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <path d=\"M 40 120 A 60 60 0 0 1 160 120 Z\" fill=\"#dbeafe\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"100\" y1=\"120\" x2=\"100\" y2=\"60\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"100\" y1=\"120\" x2=\"70\" y2=\"80\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"100\" y1=\"120\" x2=\"130\" y2=\"80\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"120\" x2=\"160\" y2=\"120\" stroke=\"#1f2937\" stroke-width=\"2\" />\n  <text x=\"50\" y=\"155\" font-size=\"12\" fill=\"#1f2937\">Measure angles</text>\n\n</svg>"
+    },
+    {
+      "term": "Pythagorean Theorem",
+      "definition": "In a right triangle, the square of the hypotenuse equals the sum of squares of the other sides (a² + b² = c²).",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Pythagorean Theorem</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "pyramid",
+      "definition": "A 3D shape with a polygon base and triangular faces that meet at a point at the top.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"100,40 30,160 170,160\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"100\" y1=\"40\" x2=\"100\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"30\" y1=\"160\" x2=\"170\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <circle cx=\"100\" cy=\"40\" r=\"3\" fill=\"#ef4444\" />\n\n</svg>"
+    },
+    {
+      "term": "quartile",
+      "definition": "One of the values that divides a data set into four equal parts.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Quartile</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "quotient",
+      "definition": "The answer you get when you divide one number by another.",
+      "domain": "Numbers",
+      "examples": [
+        "12 ÷ 3 = 4, so the quotient is 4"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Quotient</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "radical sign",
+      "definition": "The symbol âˆš used to show square roots or other roots of numbers.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Radical Sign</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "radius",
+      "definition": "The distance from the center of a circle to any point on its edge.",
+      "domain": "Geometry",
+      "examples": [
+        "half the diameter"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"60\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"100\" y1=\"100\" x2=\"160\" y2=\"100\" stroke=\"#ef4444\" stroke-width=\"3\" />\n  <circle cx=\"100\" cy=\"100\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"160\" cy=\"100\" r=\"4\" fill=\"#ef4444\" />\n  <text x=\"115\" y=\"95\" font-size=\"14\" fill=\"#ef4444\" font-weight=\"bold\">radius</text>\n\n</svg>"
+    },
+    {
+      "term": "random sample",
+      "definition": "A sample where every member of the population has an equal chance of being chosen.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Random Sample</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "rate",
+      "definition": "A ratio that compares two different units, like miles per hour or dollars per pound.",
+      "domain": "Ratios",
+      "examples": [
+        "60 miles per hour",
+        "$3 per pound"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Rate</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "rational numbers",
+      "definition": "Numbers that can be written as a fraction of two whole numbers.",
+      "domain": "Numbers",
+      "examples": [
+        "½",
+        "3",
+        "-2",
+        "0.75"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Rational Numbers</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "ray",
+      "definition": "A line that starts at one point and goes on forever in one direction.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Ray</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "reciprocals",
+      "definition": "Two numbers that multiply together to equal one, found by flipping a fraction.",
+      "domain": "Numbers",
+      "examples": [
+        "â…” and 3/2 are reciprocals"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Reciprocals</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "rectangle",
+      "definition": "A four-sided shape with four right angles and opposite sides that are equal and parallel.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"40\" y=\"60\" width=\"120\" height=\"80\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <rect x=\"40\" y=\"60\" width=\"8\" height=\"8\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <rect x=\"152\" y=\"60\" width=\"8\" height=\"8\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <rect x=\"40\" y=\"132\" width=\"8\" height=\"8\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <rect x=\"152\" y=\"132\" width=\"8\" height=\"8\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "rectangular prism",
+      "definition": "A 3D shape with six rectangular faces, like a box or shoebox.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"50,100 130,100 130,170 50,170\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"50,100 80,70 160,70 130,100\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"130,100 160,70 160,140 130,170\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n\n</svg>"
+    },
+    {
+      "term": "reduce",
+      "definition": "Simplifying a fraction to lowest terms by dividing the numerator and denominator by their greatest common factor.",
+      "domain": "Numbers",
+      "examples": [
+        "6/8 reduces to ¾"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Reduce</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "reflection",
+      "definition": "Flipping a shape over a line to create a mirror image.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"100\" y1=\"20\" x2=\"100\" y2=\"180\" stroke=\"#9ca3af\" stroke-width=\"2\" stroke-dasharray=\"5,5\" />\n  <polygon points=\"50,60 70,100 30,100\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"150,60 130,100 170,100\" fill=\"#ef4444\" fill-opacity=\"0.7\" stroke=\"#dc2626\" stroke-width=\"2\" />\n  <text x=\"55\" y=\"50\" font-size=\"12\" fill=\"#2563eb\" font-weight=\"bold\">Original</text>\n  <text x=\"125\" y=\"50\" font-size=\"12\" fill=\"#ef4444\" font-weight=\"bold\">Mirror</text>\n\n</svg>"
+    },
+    {
+      "term": "relationship",
+      "definition": "How two or more quantities or variables are connected or affect each other.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Relationship</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "remote interior angles",
+      "definition": "The two angles inside a triangle that are not next to a given exterior angle.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Remote</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Interior</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Angles</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "repeating decimal",
+      "definition": "A decimal where one or more digits repeat forever in a pattern.",
+      "domain": "Numbers",
+      "examples": [
+        "0.333...",
+        "0.272727..."
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"50\" y=\"80\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">3.14</text>\n  <line x1=\"85\" y1=\"85\" x2=\"85\" y2=\"110\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"95\" y=\"105\" font-size=\"12\" fill=\"#ef4444\" font-weight=\"bold\">decimal point</text>\n  <text x=\"35\" y=\"140\" font-size=\"14\" fill=\"#3b82f6\">3 ones</text>\n  <text x=\"90\" y=\"140\" font-size=\"14\" fill=\"#3b82f6\">.1 tenths</text>\n  <text x=\"110\" y=\"160\" font-size=\"14\" fill=\"#3b82f6\">.04 hundredths</text>\n\n</svg>"
+    },
+    {
+      "term": "representative sample",
+      "definition": "A sample that accurately reflects the characteristics of the whole population.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Representative Sample</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "rigid transformations",
+      "definition": "Moving a shape by sliding, flipping, or rotating without changing its size or shape.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Rigid Transformations</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "right angle",
+      "definition": "An angle that measures exactly 90 degrees, forming a perfect square corner.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"50\" y1=\"150\" x2=\"150\" y2=\"150\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"150\" x2=\"50\" y2=\"50\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <rect x=\"50\" y=\"135\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"75\" y=\"130\" font-size=\"16\" fill=\"#f59e0b\" font-weight=\"bold\">90°</text>\n\n</svg>"
+    },
+    {
+      "term": "rotation",
+      "definition": "Turning a shape around a fixed point by a certain number of degrees.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <circle cx=\"100\" cy=\"100\" r=\"3\" fill=\"#ef4444\" />\n  <polygon points=\"80,80 120,80 120,120\" fill=\"#3b82f6\" fill-opacity=\"0.5\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"80,120 80,80 120,80\" fill=\"#10b981\" fill-opacity=\"0.5\" stroke=\"#059669\" stroke-width=\"2\" />\n  <path d=\"M 130 100 A 30 30 0 0 1 100 130\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#f59e0b\" />\n    </marker>\n  </defs>\n\n</svg>"
+    },
+    {
+      "term": "rule",
+      "definition": "A mathematical pattern or formula that describes how to find each term or output in a sequence.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Rule</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "sample space",
+      "definition": "All the possible outcomes of a probability experiment.",
+      "domain": "Probability",
+      "examples": [
+        "heads and tails for a coin flip"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Sample Space</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "scale",
+      "definition": "The ratio between measurements on a drawing or model and the actual object.",
+      "domain": "Ratios",
+      "examples": [
+        "1 inch = 10 feet"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Scale</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "scale drawing",
+      "definition": "A drawing that represents a real object but is larger or smaller by a fixed ratio.",
+      "domain": "Ratios",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Scale Drawing</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "scale factor",
+      "definition": "The number you multiply by to enlarge or reduce a figure in a dilation.",
+      "domain": "Ratios",
+      "examples": [
+        "scale factor of 2 doubles the size"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Scale Factor</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "scalene triangle",
+      "definition": "A triangle where all three sides have different lengths.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"60,40 30,160 170,150\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <text x=\"85\" y=\"100\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">All sides</text>\n  <text x=\"75\" y=\"120\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">different</text>\n\n</svg>"
+    },
+    {
+      "term": "scaling",
+      "definition": "Making something larger or smaller while keeping the same proportions.",
+      "domain": "Ratios",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Scaling</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "scientific notation",
+      "definition": "Writing very large or small numbers as a number between 1 and 10 times a power of 10.",
+      "domain": "Numbers",
+      "examples": [
+        "3,000 = 3 × 10³",
+        "0.005 = 5 × 10â»³"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"20\" y=\"70\" font-size=\"20\" fill=\"#1f2937\">3,000,000</text>\n  <line x1=\"30\" y1=\"90\" x2=\"150\" y2=\"90\" stroke=\"#10b981\" stroke-width=\"2\" marker-end=\"url(#downarrow)\" />\n  <defs>\n    <marker id=\"downarrow\" markerWidth=\"10\" markerHeight=\"10\" refX=\"5\" refY=\"9\" orient=\"auto\">\n      <polygon points=\"0 0, 10 0, 5 10\" fill=\"#10b981\" />\n    </marker>\n  </defs>\n  <text x=\"40\" y=\"130\" font-size=\"24\" fill=\"#1f2937\" font-weight=\"bold\">3 × 10</text>\n  <text x=\"115\" y=\"115\" font-size=\"16\" fill=\"#ef4444\" font-weight=\"bold\">6</text>\n\n</svg>"
+    },
+    {
+      "term": "similar",
+      "definition": "Shapes that have the same shape but may be different sizes, with proportional sides.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"40,120 60,80 80,120\" fill=\"#3b82f6\" fill-opacity=\"0.5\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"110,140 140,60 170,140\" fill=\"#10b981\" fill-opacity=\"0.5\" stroke=\"#059669\" stroke-width=\"2\" />\n  <text x=\"50\" y=\"180\" font-size=\"12\" fill=\"#1f2937\">Same shape,</text>\n  <text x=\"45\" y=\"195\" font-size=\"12\" fill=\"#1f2937\">different size</text>\n\n</svg>"
+    },
+    {
+      "term": "similar figures",
+      "definition": "Shapes with the same angles and proportional sides, one being a scaled version of the other.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"40,120 60,80 80,120\" fill=\"#3b82f6\" fill-opacity=\"0.5\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"110,140 140,60 170,140\" fill=\"#10b981\" fill-opacity=\"0.5\" stroke=\"#059669\" stroke-width=\"2\" />\n  <text x=\"50\" y=\"180\" font-size=\"12\" fill=\"#1f2937\">Same shape,</text>\n  <text x=\"45\" y=\"195\" font-size=\"12\" fill=\"#1f2937\">different size</text>\n\n</svg>"
+    },
+    {
+      "term": "simplify",
+      "definition": "Making an expression or fraction easier to read by combining like terms or reducing.",
+      "domain": "Algebra",
+      "examples": [
+        "3x + 2x simplifies to 5x"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Simplify</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "simple interest",
+      "definition": "Interest calculated only on the original amount of money, not on any interest earned.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Simple Interest</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "simulation",
+      "definition": "Using a model or activity to imitate a real-life situation and study its probabilities.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Simulation</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "single event",
+      "definition": "One action or happening in a probability experiment, like rolling a die once.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Single Event</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "slope",
+      "definition": "How steep a line is, found by dividing the vertical change by the horizontal change.",
+      "domain": "Algebra",
+      "examples": [
+        "rise over run"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#1f2937\" />\n    </marker>\n  </defs>\n  <line x1=\"20\" y1=\"180\" x2=\"180\" y2=\"20\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"50\" y1=\"165\" x2=\"120\" y2=\"165\" stroke=\"#ef4444\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"120\" y1=\"165\" x2=\"120\" y2=\"80\" stroke=\"#10b981\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" />\n  <text x=\"65\" y=\"180\" font-size=\"12\" fill=\"#ef4444\">run</text>\n  <text x=\"130\" y=\"130\" font-size=\"12\" fill=\"#10b981\">rise</text>\n  <text x=\"50\" y=\"35\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">rise/run</text>\n\n</svg>"
+    },
+    {
+      "term": "solution",
+      "definition": "A value that makes an equation or inequality true when you substitute it in.",
+      "domain": "Algebra",
+      "examples": [
+        "x = 3 is a solution to 2x + 1 = 7"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Solution</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "sphere",
+      "definition": "A perfectly round 3D shape where every point on the surface is the same distance from the center.",
+      "domain": "Geometry",
+      "examples": [
+        "basketball",
+        "globe"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <radialGradient id=\"sphereGrad\">\n      <stop offset=\"30%\" stop-color=\"#60a5fa\" />\n      <stop offset=\"100%\" stop-color=\"#2563eb\" />\n    </radialGradient>\n  </defs>\n  <circle cx=\"100\" cy=\"100\" r=\"65\" fill=\"url(#sphereGrad)\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <ellipse cx=\"100\" cy=\"100\" rx=\"65\" ry=\"20\" fill=\"none\" stroke=\"#1e40af\" stroke-width=\"1.5\" opacity=\"0.5\" />\n\n</svg>"
+    },
+    {
+      "term": "square (a number)",
+      "definition": "Multiplying a number by itself, like 5² = 5 × 5 = 25.",
+      "domain": "Numbers",
+      "examples": [
+        "3² = 9",
+        "4² = 16"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"40\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">4</text>\n  <text x=\"75\" y=\"55\" font-size=\"24\" fill=\"#ef4444\" font-weight=\"bold\">2</text>\n  <text x=\"110\" y=\"70\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">=16</text>\n  <rect x=\"40\" y=\"100\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"55\" y1=\"100\" x2=\"55\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"70\" y1=\"100\" x2=\"70\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"85\" y1=\"100\" x2=\"85\" y2=\"160\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"115\" x2=\"100\" y2=\"115\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"130\" x2=\"100\" y2=\"130\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <line x1=\"40\" y1=\"145\" x2=\"100\" y2=\"145\" stroke=\"#2563eb\" stroke-width=\"1\" />\n  <text x=\"110\" y=\"135\" font-size=\"12\" fill=\"#2563eb\">4×4 grid</text>\n\n</svg>"
+    },
+    {
+      "term": "square root",
+      "definition": "A number that when multiplied by itself gives you the original number.",
+      "domain": "Numbers",
+      "examples": [
+        "âˆš25 = 5 because 5 × 5 = 25"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"30\" y=\"80\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">√</text>\n  <line x1=\"50\" y1=\"45\" x2=\"85\" y2=\"45\" stroke=\"#1f2937\" stroke-width=\"3\" />\n  <text x=\"55\" y=\"75\" font-size=\"32\" fill=\"#1f2937\" font-weight=\"bold\">25</text>\n  <text x=\"100\" y=\"80\" font-size=\"40\" fill=\"#10b981\" font-weight=\"bold\">=5</text>\n  <text x=\"30\" y=\"130\" font-size=\"12\" fill=\"#1f2937\">5 × 5 = 25</text>\n\n</svg>"
+    },
+    {
+      "term": "standard form",
+      "definition": "Writing a number in its regular way using digits, like 1,234 instead of words or other forms.",
+      "domain": "Numbers",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Standard Form</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "stem-and-leaf plot",
+      "definition": "A graph that organizes data by splitting each number into a stem and leaf part.",
+      "domain": "Data",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#9ca3af\" />\n    </marker>\n  </defs>\n  <line x1=\"30\" y1=\"160\" x2=\"170\" y2=\"160\" stroke=\"#9ca3af\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <line x1=\"30\" y1=\"160\" x2=\"30\" y2=\"40\" stroke=\"#9ca3af\" stroke-width=\"1\" marker-end=\"url(#arrowhead)\" />\n  <polyline points=\"40,140 70,120 100,100 130,80 160,70\" fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <circle cx=\"40\" cy=\"140\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"70\" cy=\"120\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"100\" cy=\"100\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"130\" cy=\"80\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"160\" cy=\"70\" r=\"4\" fill=\"#ef4444\" />\n  <text x=\"50\" y=\"25\" font-size=\"11\" fill=\"#1f2937\">Change over time</text>\n\n</svg>"
+    },
+    {
+      "term": "straight angle",
+      "definition": "An angle that measures exactly 180 degrees, forming a straight line.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <circle cx=\"100\" cy=\"100\" r=\"3\" fill=\"#ef4444\" />\n  <path d=\"M 120 100 A 20 20 0 0 1 80 100\" fill=\"none\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"85\" y=\"85\" font-size=\"16\" fill=\"#f59e0b\" font-weight=\"bold\">180°</text>\n\n</svg>"
+    },
+    {
+      "term": "strength (of an association)",
+      "definition": "How closely two variables in a data set follow a pattern together.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Strength</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">An</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "substitution",
+      "definition": "Replacing a variable with its value or another expression in an equation.",
+      "domain": "Algebra",
+      "examples": [
+        "If x = 3, substitute to get 2(3) + 5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Substitution</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "supplementary angles",
+      "definition": "Two angles that add up to exactly 180 degrees.",
+      "domain": "Geometry",
+      "examples": [
+        "120° and 60°"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"20\" y1=\"100\" x2=\"180\" y2=\"100\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"100\" y1=\"100\" x2=\"140\" y2=\"50\" stroke=\"#10b981\" stroke-width=\"3\" />\n  <path d=\"M 120 100 A 20 20 0 0 1 108 86\" fill=\"#fbbf24\" fill-opacity=\"0.4\" />\n  <path d=\"M 80 100 A 20 20 0 0 1 92 86\" fill=\"#3b82f6\" fill-opacity=\"0.4\" />\n  <text x=\"55\" y=\"85\" font-size=\"12\" fill=\"#1f2937\">120°</text>\n  <text x=\"120\" y=\"85\" font-size=\"12\" fill=\"#1f2937\">60°</text>\n  <text x=\"60\" y=\"140\" font-size=\"14\" fill=\"#1f2937\" font-weight=\"bold\">Add to 180°</text>\n\n</svg>"
+    },
+    {
+      "term": "surface area",
+      "definition": "The total area of all the faces or outer surfaces of a 3D shape.",
+      "domain": "Measurement",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <!-- Unfolded cube net -->\n  <rect x=\"70\" y=\"30\" width=\"30\" height=\"30\" fill=\"#dbeafe\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"40\" y=\"60\" width=\"30\" height=\"30\" fill=\"#bfdbfe\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"70\" y=\"60\" width=\"30\" height=\"30\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"100\" y=\"60\" width=\"30\" height=\"30\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"130\" y=\"60\" width=\"30\" height=\"30\" fill=\"#3b82f6\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <rect x=\"70\" y=\"90\" width=\"30\" height=\"30\" fill=\"#2563eb\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <text x=\"40\" y=\"145\" font-size=\"11\" fill=\"#1f2937\">All outside faces</text>\n\n</svg>"
+    },
+    {
+      "term": "system of equations",
+      "definition": "Two or more equations with the same variables that are solved together.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">System</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Of</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Equations</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "systematic list",
+      "definition": "An organized list that shows all possible outcomes in a logical order.",
+      "domain": "Probability",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Systematic List</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "term",
+      "definition": "A single number, variable, or the product of numbers and variables in an expression.",
+      "domain": "Algebra",
+      "examples": [
+        "In 3x + 5, there are two terms: 3x and 5"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Term</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "terminating decimal",
+      "definition": "A decimal that ends after a certain number of digits and doesn't go on forever.",
+      "domain": "Numbers",
+      "examples": [
+        "0.5",
+        "0.75",
+        "0.125"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"50\" y=\"80\" font-size=\"40\" fill=\"#1f2937\" font-weight=\"bold\">3.14</text>\n  <line x1=\"85\" y1=\"85\" x2=\"85\" y2=\"110\" stroke=\"#ef4444\" stroke-width=\"2\" />\n  <text x=\"95\" y=\"105\" font-size=\"12\" fill=\"#ef4444\" font-weight=\"bold\">decimal point</text>\n  <text x=\"35\" y=\"140\" font-size=\"14\" fill=\"#3b82f6\">3 ones</text>\n  <text x=\"90\" y=\"140\" font-size=\"14\" fill=\"#3b82f6\">.1 tenths</text>\n  <text x=\"110\" y=\"160\" font-size=\"14\" fill=\"#3b82f6\">.04 hundredths</text>\n\n</svg>"
+    },
+    {
+      "term": "theoretical probability",
+      "definition": "The expected probability calculated by dividing desired outcomes by total possible outcomes.",
+      "domain": "Probability",
+      "examples": [
+        "½ for flipping heads"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"24\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Theoretical Probability</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "third quartile",
+      "definition": "The value that is greater than 75% of the data and less than 25% of the data.",
+      "domain": "Statistics",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Third Quartile</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "tile pattern",
+      "definition": "A repeating visual design using shapes, often used to explore algebraic patterns.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Tile Pattern</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "translation",
+      "definition": "Sliding a shape to a new position without rotating or flipping it.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"40,80 60,100 40,120\" fill=\"#3b82f6\" fill-opacity=\"0.7\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"130,80 150,100 130,120\" fill=\"#ef4444\" fill-opacity=\"0.7\" stroke=\"#dc2626\" stroke-width=\"2\" />\n  <line x1=\"60\" y1=\"100\" x2=\"130\" y2=\"100\" stroke=\"#f59e0b\" stroke-width=\"2\" marker-end=\"url(#arrowhead)\" stroke-dasharray=\"5,5\" />\n  <defs>\n    <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"10\" refX=\"9\" refY=\"3\" orient=\"auto\">\n      <polygon points=\"0 0, 10 3, 0 6\" fill=\"#f59e0b\" />\n    </marker>\n  </defs>\n  <text x=\"70\" y=\"140\" font-size=\"12\" fill=\"#1f2937\">Slide</text>\n\n</svg>"
+    },
+    {
+      "term": "transversal",
+      "definition": "A line that crosses through two or more other lines.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"30\" y1=\"60\" x2=\"170\" y2=\"60\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"30\" y1=\"120\" x2=\"170\" y2=\"120\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <line x1=\"60\" y1=\"30\" x2=\"140\" y2=\"150\" stroke=\"#ef4444\" stroke-width=\"3\" />\n  <text x=\"50\" y=\"180\" font-size=\"12\" fill=\"#1f2937\">Line crosses two lines</text>\n\n</svg>"
+    },
+    {
+      "term": "trapezoid",
+      "definition": "A four-sided shape with exactly one pair of parallel sides.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"70,60 130,60 160,140 40,140\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"72\" y1=\"65\" x2=\"78\" y2=\"65\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"72\" y1=\"72\" x2=\"78\" y2=\"72\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"42\" y1=\"135\" x2=\"48\" y2=\"135\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <line x1=\"42\" y1=\"128\" x2=\"48\" y2=\"128\" stroke=\"#f59e0b\" stroke-width=\"2\" />\n  <text x=\"60\" y=\"110\" font-size=\"12\" fill=\"#1f2937\">One pair</text>\n  <text x=\"60\" y=\"125\" font-size=\"12\" fill=\"#1f2937\">parallel</text>\n\n</svg>"
+    },
+    {
+      "term": "triangle",
+      "definition": "A polygon with three sides and three angles.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <polygon points=\"100,40 40,160 160,160\" fill=\"#3b82f6\" fill-opacity=\"0.3\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <circle cx=\"100\" cy=\"40\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"40\" cy=\"160\" r=\"4\" fill=\"#ef4444\" />\n  <circle cx=\"160\" cy=\"160\" r=\"4\" fill=\"#ef4444\" />\n\n</svg>"
+    },
+    {
+      "term": "unit rate",
+      "definition": "A rate where the second quantity is one unit, like 5 miles per 1 hour.",
+      "domain": "Ratios",
+      "examples": [
+        "$2 per item",
+        "30 miles per gallon"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Unit Rate</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "variable",
+      "definition": "A letter or symbol that represents an unknown number or a number that can change.",
+      "domain": "Algebra",
+      "examples": [
+        "x",
+        "y",
+        "n"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <text x=\"70\" y=\"110\" font-size=\"60\" fill=\"#3b82f6\" font-weight=\"bold\">x</text>\n  <text x=\"40\" y=\"160\" font-size=\"14\" fill=\"#1f2937\">Unknown</text>\n  <text x=\"40\" y=\"178\" font-size=\"14\" fill=\"#1f2937\">number</text>\n\n</svg>"
+    },
+    {
+      "term": "vertex",
+      "definition": "A point where two or more lines, edges, or sides meet, like a corner.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Vertex</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "vertical angles",
+      "definition": "Opposite angles formed when two lines cross, and they are always equal.",
+      "domain": "Geometry",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <line x1=\"30\" y1=\"60\" x2=\"170\" y2=\"140\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <line x1=\"30\" y1=\"140\" x2=\"170\" y2=\"60\" stroke=\"#2563eb\" stroke-width=\"3\" />\n  <path d=\"M 50 75 A 20 20 0 0 1 60 85\" fill=\"#fbbf24\" fill-opacity=\"0.4\" />\n  <path d=\"M 140 115 A 20 20 0 0 1 150 125\" fill=\"#fbbf24\" fill-opacity=\"0.4\" />\n  <text x=\"60\" y=\"180\" font-size=\"12\" fill=\"#1f2937\" font-weight=\"bold\">Opposite angles equal</text>\n\n</svg>"
+    },
+    {
+      "term": "volume",
+      "definition": "The amount of space inside a 3D shape, measured in cubic units.",
+      "domain": "Measurement",
+      "examples": [
+        "Volume of a 2×3×4 box is 24 cubic units"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n\n  <rect x=\"50\" y=\"90\" width=\"90\" height=\"80\" fill=\"#3b82f6\" fill-opacity=\"0.4\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"50,90 80,60 170,60 140,90\" fill=\"#60a5fa\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <polygon points=\"140,90 170,60 170,140 140,170\" fill=\"#93c5fd\" stroke=\"#2563eb\" stroke-width=\"2\" />\n  <text x=\"45\" y=\"190\" font-size=\"13\" fill=\"#1f2937\">Space inside 3D</text>\n\n</svg>"
+    },
+    {
+      "term": "voluntary response sample",
+      "definition": "A sample made up of people who chose to participate, which may be biased.",
+      "domain": "Probability",
+      "examples": [
+        "an online poll anyone can answer"
+      ],
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Voluntary</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Response</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Sample</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "x â†’ y table",
+      "definition": "A table that shows input values (x) and their corresponding output values (y).",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">X</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Â†’</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Y</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "x-intercept",
+      "definition": "The point where a graph crosses the x-axis, where the y-value is zero.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">X-Intercept</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "y = mx + b",
+      "definition": "The slope-intercept form of a line where m is the slope and b is the y-intercept.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"80\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Y</text>\n<text x=\"100\" y=\"105\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">=</text>\n<text x=\"100\" y=\"130\" font-size=\"20\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Mx</text>\n<circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    },
+    {
+      "term": "y-intercept",
+      "definition": "The point where a graph crosses the y-axis, where the x-value is zero.",
+      "domain": "Algebra",
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\" width=\"200\" height=\"200\">\n<text x=\"100\" y=\"100\" font-size=\"32\" fill=\"#2563eb\" font-weight=\"bold\" text-anchor=\"middle\">Y-Intercept</text><circle cx=\"100\" cy=\"150\" r=\"3\" fill=\"#10b981\" />\n</svg>"
+    }
+  ]
+};
+
+    // State management
+let allTerms = [];
+let filteredTerms = [];
+let currentDomain = 'all';
+let searchQuery = '';
+
+// DOM elements
+const searchInput = document.getElementById('searchInput');
+const termsGrid = document.getElementById('termsGrid');
+const resultsCount = document.getElementById('resultsCount');
+const noResults = document.getElementById('noResults');
+const filterContainer = document.querySelector('.filter-container');
+
+// Initialize app
+function initApp() {
+    try {
+        loadGlossaryData();
+        createFilterButtons();
+        setupEventListeners();
+        renderTerms();
+    } catch (error) {
+        console.error('Error initializing app:', error);
+        showError('Failed to load math glossary. Please refresh the page.');
+    }
+}
+
+// Load glossary data from JSON
+function loadGlossaryData() {
+    try {
+        const data = GLOSSARY_DATA;
+        allTerms = data.terms;
+        filteredTerms = [...allTerms];
+
+        // Sort terms alphabetically
+        allTerms.sort((a, b) => a.term.localeCompare(b.term));
+        filteredTerms = [...allTerms];
+    } catch (error) {
+        console.error('Error loading glossary:', error);
+        throw error;
+    }
+}
+
+// Create filter buttons dynamically
+function createFilterButtons() {
+    // Get unique domains
+    const domains = [...new Set(allTerms.map(term => term.domain))].sort();
+
+    // Create "All Terms" button
+    const allButton = filterContainer.querySelector('[data-domain="all"]');
+
+    // Create domain buttons
+    domains.forEach(domain => {
+        const button = document.createElement('button');
+        button.className = 'filter-btn';
+        button.dataset.domain = domain;
+        button.textContent = domain;
+        filterContainer.appendChild(button);
+    });
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    // Search input
+    searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        filterTerms();
+        renderTerms();
+    });
+
+    // Filter buttons
+    filterContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('filter-btn')) {
+            // Update active state
+            filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+
+            // Update current domain
+            currentDomain = e.target.dataset.domain;
+            filterTerms();
+            renderTerms();
+        }
+    });
+}
+
+// Filter terms based on search and domain
+function filterTerms() {
+    filteredTerms = allTerms.filter(term => {
+        // Domain filter
+        const matchesDomain = currentDomain === 'all' || term.domain === currentDomain;
+
+        // Search filter
+        const matchesSearch = searchQuery === '' ||
+            term.term.toLowerCase().includes(searchQuery) ||
+            term.definition.toLowerCase().includes(searchQuery) ||
+            (term.examples && term.examples.some(ex => ex.toLowerCase().includes(searchQuery)));
+
+        return matchesDomain && matchesSearch;
+    });
+}
+
+// Render terms to the grid
+function renderTerms() {
+    // Clear grid
+    termsGrid.innerHTML = '';
+
+    // Update results count
+    updateResultsCount();
+
+    // Show/hide no results message
+    if (filteredTerms.length === 0) {
+        termsGrid.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+    }
+
+    termsGrid.style.display = 'grid';
+    noResults.style.display = 'none';
+
+    // Render each term
+    filteredTerms.forEach(term => {
+        const card = createTermCard(term);
+        termsGrid.appendChild(card);
+    });
+}
+
+// Create a term card element
+function createTermCard(term) {
+    const card = document.createElement('div');
+    card.className = 'term-card';
+
+    // Create domain badge class
+    const domainClass = `domain-${term.domain.toLowerCase().replace(/\s+/g, '-')}`;
+
+    // Build card HTML
+    card.innerHTML = `
+        <div class="term-header">
+            <h2 class="term-name">${escapeHtml(term.term)}</h2>
+            <span class="domain-badge ${domainClass}">${escapeHtml(term.domain)}</span>
+        </div>
+
+        <p class="term-definition">${escapeHtml(term.definition)}</p>
+
+        <div class="term-visual">
+            ${term.svg}
+        </div>
+
+        ${term.examples && term.examples.length > 0 ? `
+            <div class="term-examples">
+                <p class="examples-title">Examples:</p>
+                <ul class="examples-list">
+                    ${term.examples.map(ex => `<li class="example-item">${escapeHtml(ex)}</li>`).join('')}
+                </ul>
+            </div>
+        ` : ''}
+    `;
+
+    return card;
+}
+
+// Update results count
+function updateResultsCount() {
+    const count = filteredTerms.length;
+    const total = allTerms.length;
+
+    if (searchQuery || currentDomain !== 'all') {
+        resultsCount.textContent = `Showing ${count} of ${total} terms`;
+    } else {
+        resultsCount.textContent = `${total} math terms`;
+    }
+}
+
+// Show error message
+function showError(message) {
+    termsGrid.innerHTML = `
+        <div class="loading" style="color: #ef4444;">
+            ⚠️ ${escapeHtml(message)}
+        </div>
+    `;
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(unsafe) {
+    if (typeof unsafe !== 'string') return '';
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// Initialize app when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
+
+// Optional: Add keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Focus search on '/' key
+    if (e.key === '/' && document.activeElement !== searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+    }
+
+    // Clear search on 'Escape' key
+    if (e.key === 'Escape' && document.activeElement === searchInput) {
+        searchInput.value = '';
+        searchQuery = '';
+        filterTerms();
+        renderTerms();
+        searchInput.blur();
+    }
+});
+
+// Optional: Text-to-Speech feature (if browser supports it)
+function speakDefinition(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+// Add click-to-speak functionality (can be enabled later)
+// termsGrid.addEventListener('click', (e) => {
+//     const card = e.target.closest('.term-card');
+//     if (card) {
+//         const definition = card.querySelector('.term-definition').textContent;
+//         speakDefinition(definition);
+//     }
+// });
+
+    </script>
+</body>
+</html>
