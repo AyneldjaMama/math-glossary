@@ -122,7 +122,7 @@ This glossary is designed for:
 
 ## 📄 License
 
-[Choose your license - MIT, GPL, Creative Commons, etc.]
+MIT License
 
 ## 🙏 Acknowledgments
 
@@ -140,7 +140,7 @@ Contributions are welcome! Please feel free to:
 
 ## 📧 Contact
 
-[Your contact information or link to GitHub profile]
+sean.f.harding@gmail.com
 
 ---
 
