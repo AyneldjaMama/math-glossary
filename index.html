@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Glossary - Learn Math Terms!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #4b5563;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+
+        .results-count {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .clear-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .clear-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            animation: scaleIn 0.4s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .term-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1f2937;
+            flex: 1;
+        }
+
+        .domain-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .domain-Geometry { background: #3b82f6; }
+        .domain-Algebra { background: #8b5cf6; }
+        .domain-Numbers { background: #10b981; }
+        .domain-Probability { background: #f59e0b; }
+        .domain-Statistics { background: #ef4444; }
+        .domain-Measurement { background: #06b6d4; }
+        .domain-Ratios { background: #ec4899; }
+        .domain-Data { background: #6366f1; }
+
+        .definition {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 15px;
+        }
+
+        .examples {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .examples-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .examples ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .examples li {
+            padding: 4px 0;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .examples li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 200px;
+        }
+
+        .visual svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .speak-btn {
+            flex: 1;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .speak-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .speak-btn:active {
+            transform: translateY(0);
+        }
+
+        .speak-btn.speaking {
+            background: #10b981;
+        }
+
+        .speaker-icon {
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 15px;
+            font-size: 1.2rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .controls {
+                padding: 20px;
+            }
+
+            .filters {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .term-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧮 Math Glossary</h1>
+            <p class="subtitle">Learn math terms with fun visuals and examples!</p>
+        </header>
+
+        <div class="controls">
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="searchBox"
+                    class="search-box"
+                    placeholder="🔍 Search for a math term..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="filters" id="filters"></div>
+
+            <div class="stats">
+                <div class="results-count" id="resultsCount">Loading...</div>
+                <button class="clear-btn" id="clearBtn">Clear Filters</button>
+            </div>
+        </div>
+
+        <div id="cardsContainer">
+            <div class="loading">Loading amazing math terms... ✨</div>
+        </div>
+    </div>
+
+    <script>
+        let allTerms = [];
+        let filteredTerms = [];
+        let activeFilters = new Set();
+        let searchQuery = '';
+        let currentSpeech = null;
+
+        // Load data
+        async function loadGlossary() {
+            try {
+                const response = await fetch('data/glossary.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load glossary data');
+                }
+                const data = await response.json();
+                allTerms = data.terms;
+                filteredTerms = [...allTerms];
+
+                initializeFilters(data.metadata.domains);
+                renderCards();
+                updateResultsCount();
+            } catch (error) {
+                console.error('Error loading glossary:', error);
+                document.getElementById('cardsContainer').innerHTML = `
+                    <div class="error">
+                        ⚠️ Oops! Unable to load the glossary.<br>
+                        <small>Please make sure the data/glossary.json file exists.</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize filter buttons
+        function initializeFilters(domains) {
+            const filtersContainer = document.getElementById('filters');
+            domains.forEach(domain => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.textContent = domain;
+                btn.dataset.domain = domain;
+                btn.addEventListener('click', () => toggleFilter(domain, btn));
+                filtersContainer.appendChild(btn);
+            });
+        }
+
+        // Toggle filter
+        function toggleFilter(domain, btn) {
+            if (activeFilters.has(domain)) {
+                activeFilters.delete(domain);
+                btn.classList.remove('active');
+            } else {
+                activeFilters.add(domain);
+                btn.classList.add('active');
+            }
+            applyFilters();
+        }
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                applyFilters();
+            });
+
+            // Clear button
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                activeFilters.clear();
+                searchQuery = '';
+                searchBox.value = '';
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                applyFilters();
+            });
+
+            loadGlossary();
+        });
+
+        // Apply filters and search
+        function applyFilters() {
+            filteredTerms = allTerms.filter(term => {
+                // Apply domain filters
+                const matchesDomain = activeFilters.size === 0 || activeFilters.has(term.domain);
+
+                // Apply search query
+                const matchesSearch = searchQuery === '' ||
+                    term.term.toLowerCase().includes(searchQuery) ||
+                    term.definition.toLowerCase().includes(searchQuery) ||
+                    (term.examples && term.examples.some(ex => ex.toLowerCase().includes(searchQuery)));
+
+                return matchesDomain && matchesSearch;
+            });
+
+            renderCards();
+            updateResultsCount();
+        }
+
+        // Render cards
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+
+            if (filteredTerms.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <div>No terms found. Try a different search or filter!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            const grid = document.createElement('div');
+            grid.className = 'cards-grid';
+
+            filteredTerms.forEach(term => {
+                const card = createCard(term);
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Create card element
+        function createCard(term) {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const header = document.createElement('div');
+            header.className = 'card-header';
+
+            const title = document.createElement('h2');
+            title.className = 'term-title';
+            title.textContent = term.term;
+
+            const badge = document.createElement('span');
+            badge.className = `domain-badge domain-${term.domain}`;
+            badge.textContent = term.domain;
+
+            header.appendChild(title);
+            header.appendChild(badge);
+            card.appendChild(header);
+
+            const definition = document.createElement('p');
+            definition.className = 'definition';
+            definition.textContent = term.definition;
+            card.appendChild(definition);
+
+            // Examples (if available)
+            if (term.examples && term.examples.length > 0) {
+                const examplesDiv = document.createElement('div');
+                examplesDiv.className = 'examples';
+
+                const examplesTitle = document.createElement('div');
+                examplesTitle.className = 'examples-title';
+                examplesTitle.textContent = 'Examples';
+                examplesDiv.appendChild(examplesTitle);
+
+                const examplesList = document.createElement('ul');
+                term.examples.forEach(example => {
+                    const li = document.createElement('li');
+                    li.textContent = example;
+                    examplesList.appendChild(li);
+                });
+                examplesDiv.appendChild(examplesList);
+                card.appendChild(examplesDiv);
+            }
+
+            // Visual
+            const visual = document.createElement('div');
+            visual.className = 'visual';
+            visual.innerHTML = term.svg;
+            card.appendChild(visual);
+
+            // Actions
+            const actions = document.createElement('div');
+            actions.className = 'card-actions';
+
+            const speakBtn = document.createElement('button');
+            speakBtn.className = 'speak-btn';
+            speakBtn.innerHTML = '<span class="speaker-icon">🔊</span><span>Read Definition</span>';
+            speakBtn.addEventListener('click', () => speakTerm(term, speakBtn));
+            actions.appendChild(speakBtn);
+
+            card.appendChild(actions);
+
+            return card;
+        }
+
+        // Text-to-speech
+        function speakTerm(term, button) {
+            // Stop any current speech
+            if (currentSpeech) {
+                window.speechSynthesis.cancel();
+            }
+
+            // Check if browser supports speech synthesis
+            if (!('speechSynthesis' in window)) {
+                alert('Sorry, your browser does not support text-to-speech.');
+                return;
+            }
+
+            // Create speech
+            const text = `${term.term}. ${term.definition}`;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.9;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            // Update button state
+            const allSpeakBtns = document.querySelectorAll('.speak-btn');
+            allSpeakBtns.forEach(btn => btn.classList.remove('speaking'));
+            button.classList.add('speaking');
+            button.innerHTML = '<span class="speaker-icon">🔊</span><span>Speaking...</span>';
+
+            // Event handlers
+            utterance.onend = () => {
+                button.classList.remove('speaking');
+                button.innerHTML = '<span class="speaker-icon">🔊</span><span>Read Definition</span>';
+                currentSpeech = null;
+            };
+
+            utterance.onerror = () => {
+                button.classList.remove('speaking');
+                button.innerHTML = '<span class="speaker-icon">🔊</span><span>Read Definition</span>';
+                currentSpeech = null;
+            };
+
+            currentSpeech = utterance;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Update results count
+        function updateResultsCount() {
+            const count = filteredTerms.length;
+            const total = allTerms.length;
+            const countElement = document.getElementById('resultsCount');
+
+            if (activeFilters.size === 0 && searchQuery === '') {
+                countElement.textContent = `Showing all ${total} terms`;
+            } else {
+                countElement.textContent = `Showing ${count} of ${total} terms`;
+            }
+        }
+    </script>
+</body>
+</html>
