@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📐 Interactive Math Glossary</title>
+    <meta name="description" content="An interactive math glossary for middle school students with 215+ terms and visual diagrams">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">📐 Interactive Math Glossary</h1>
+                <p class="subtitle">215+ math terms with visual diagrams for middle school students</p>
+            </div>
+        </header>
+
+        <!-- Search and Filter Section -->
+        <div class="controls">
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="🔍 Search for a math term..."
+                    aria-label="Search math terms"
+                >
+            </div>
+
+            <div class="filter-container">
+                <button class="filter-btn active" data-domain="all">
+                    All Terms
+                </button>
+            </div>
+
+            <div class="results-info">
+                <span id="resultsCount">Loading terms...</span>
+            </div>
+        </div>
+
+        <!-- Terms Grid -->
+        <div id="termsGrid" class="terms-grid">
+            <div class="loading">Loading math terms...</div>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-content">
+                <span class="no-results-icon">🔍</span>
+                <h3>No terms found</h3>
+                <p>Try adjusting your search or filter</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with ❤️ for middle school math students</p>
+            <p class="footer-links">
+                <a href="https://github.com/AyneldjaMama/math-glossary" target="_blank">GitHub</a>
+                <span>•</span>
+                <a href="mailto:sean.f.harding@gmail.com">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
